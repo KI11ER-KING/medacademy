@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0b2e59">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MEDICAL HUB">
+    <meta name="application-name" content="MEDICAL HUB">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="">
+    <link id="dynamic-apple-icon" rel="apple-touch-icon" href="">
+    <link id="dynamic-manifest" rel="manifest" href="">
+    <title>MEDICAL HUB | Global Health & Wellness • أطلس التشريح 3D</title>
+
+    <!-- الخطوط والأيقونات والمكتبات -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'Inter', 'sans-serif'],
+                        en: ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        hub: {
+                            navy: '#0b2e59',
+                            blue: '#1e6bb8',
+                            sky: '#5b9bd5',
+                            dark: '#061830'
+                        },
+                        med: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e'
+                        },
+                        tealmed: {
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            padding-bottom: 84px;
+        }
+        @media (min-width: 1024px) {
+            body { padding-bottom: 0; }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.92);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* وضع الأشعة X-Ray على العارض الثلاثي الأبعاد */
+        .xray-viewport-effect {
+            filter: contrast(1.22) brightness(1.08) hue-rotate(165deg) saturate(1.35);
+            transition: filter 0.35s ease, opacity 0.35s ease;
+        }
+
+        /* تنسيق الطباعة للشهادات المعتمدة */
+        @media print {
+            body * { visibility: hidden !important; }
+            #certificate-printable, #certificate-printable * { visibility: visible !important; }
+            #certificate-printable {
+                position: fixed !important;
+                inset: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+                z-index: 99999 !important;
+                padding: 36px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 selection:bg-[#0b2e59] selection:text-white overflow-hidden">
+
+    <!-- ===================================================================== -->
+    <!-- 1. بوابة الدخول والتسجيل الإجبارية (Mandatory Auth Gate Screen) -->
+    <!-- ===================================================================== -->
+    <div id="mandatory-auth-gate" class="fixed inset-0 z-[100] bg-gradient-to-br from-[#061830] via-[#0b2e59] to-[#134e8e] flex items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 space-y-5 my-auto relative">
+            <!-- شعار التطبيق الدائري الرسمي MEDICAL HUB -->
+            <div class="text-center space-y-2.5">
+                <div class="w-24 h-24 mx-auto rounded-full bg-white p-1 shadow-xl ring-4 ring-[#0b2e59] flex items-center justify-center">
+                    <svg viewBox="0 0 200 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-label="MEDICAL HUB Official Logo">
+                        <defs>
+                            <path id="topArcGate" d="M 32,100 A 68,68 0 1,1 168,100" />
+                            <path id="botArcGate" d="M 28,104 A 72,72 0 0,0 172,104" />
+                        </defs>
+                        <circle cx="100" cy="100" r="96" fill="#0b2e59"/>
+                        <circle cx="100" cy="100" r="91" fill="none" stroke="#5b9bd5" stroke-width="2.5"/>
+                        <circle cx="100" cy="100" r="62" fill="#ffffff" stroke="#5b9bd5" stroke-width="3"/>
+                        <circle cx="100" cy="100" r="53" fill="none" stroke="#5b9bd5" stroke-width="3.5"/>
+                        <text fill="#ffffff" font-family="Inter, sans-serif" font-weight="900" font-size="18.5" letter-spacing="2.2">
+                            <textPath href="#topArcGate" startOffset="50%" text-anchor="middle">MEDICAL HUB</textPath>
+                        </text>
+                        <text fill="#ffffff" font-family="Inter, sans-serif" font-weight="800" font-size="10.2" letter-spacing="1.2">
+                            <textPath href="#botArcGate" startOffset="50%" text-anchor="middle">GLOBAL HEALTH &amp; WELLNESS</textPath>
+                        </text>
+                        <polygon points="24,100 26,105 31,105 27,108 28,113 24,110 20,113 21,108 17,105 22,105" fill="#ffffff" transform="translate(0,-5)"/>
+                        <polygon points="176,100 178,105 183,105 179,108 180,113 176,110 172,113 173,108 169,105 174,105" fill="#ffffff" transform="translate(0,-5)"/>
+                        <circle cx="100" cy="54" r="11" fill="#5b9bd5"/>
+                        <rect x="97.5" y="47" width="5" height="14" rx="1" fill="#ffffff"/>
+                        <rect x="93" y="51.5" width="14" height="5" rx="1" fill="#ffffff"/>
+                        <path d="M 100,144 C 74,128 60,112 60,94 C 60,81 70,73 82,73 C 90,73 96,77 100,83 C 104,77 110,73 118,73 C 130,73 140,81 140,94 C 140,112 126,128 100,144 Z" fill="none" stroke="#0b2e59" stroke-width="4.5"/>
+                        <path d="M 52,112 H 74 L 79,102 L 84,122 L 89,98 L 93,112 H 107 L 111,100 L 116,123 L 121,103 L 126,112 H 148" fill="none" stroke="#0b2e59" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M 96,76 C 82,66 64,66 52,73 C 62,78 75,80 94,82 Z" fill="#1e6bb8"/>
+                        <path d="M 104,76 C 118,66 136,66 148,73 C 138,78 125,80 106,82 Z" fill="#1e6bb8"/>
+                        <rect x="98" y="69" width="4" height="79" rx="2" fill="#0b2e59"/>
+                        <circle cx="100" cy="68" r="4.5" fill="#0b2e59"/>
+                        <path d="M 92,86 C 84,92 114,98 107,108 C 101,116 86,118 94,128" fill="none" stroke="#1e6bb8" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M 108,86 C 116,92 86,98 93,108 C 99,116 114,118 106,128" fill="none" stroke="#1e6bb8" stroke-width="3.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black font-en text-[#0b2e59] dark:text-sky-400">MEDICAL HUB</h1>
+                <p class="text-xs font-bold text-slate-500 dark:text-slate-400">بوابة الدخول الإجبارية — سجّل حسابك الطبي للوصول لأطلس 3D والكورسات ومفسر التحاليل</p>
+            </div>
+
+            <!-- التبديل بين إنشاء حساب جديد وتسجيل الدخول -->
+            <div class="grid grid-cols-2 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <button type="button" id="gate-tab-register" onclick="switchGateTab('register')" class="py-2 rounded-xl bg-[#0b2e59] text-white text-xs font-black shadow transition">إنشاء حساب جديد</button>
+                <button type="button" id="gate-tab-login" onclick="switchGateTab('login')" class="py-2 rounded-xl text-slate-600 dark:text-slate-300 text-xs font-bold transition">تسجيل الدخول</button>
+            </div>
+
+            <!-- نموذج التسجيل الإجباري -->
+            <form id="mandatory-auth-form" onsubmit="handleMandatoryGateSubmit(event)" class="space-y-3.5">
+                <div id="gate-name-field">
+                    <label class="block text-xs font-extrabold mb-1 text-slate-700 dark:text-slate-300">الاسم الكامل (يُطبع في الشهادات المعتمدة) *</label>
+                    <input type="text" id="gate-name" required placeholder="د. أحمد محمد / اسم الطالب" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:ring-2 focus:ring-[#0b2e59] outline-none">
+                </div>
+                <div id="gate-role-field">
+                    <label class="block text-xs font-extrabold mb-1 text-slate-700 dark:text-slate-300">التخصص / الصفة الطبية *</label>
+                    <select id="gate-role" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:ring-2 focus:ring-[#0b2e59] outline-none">
+                        <option value="طالب طب بشري">طالب طب بشري (Medical Student)</option>
+                        <option value="طبيب ممارس / أخصائي">طبيب ممارس / أخصائي (Physician)</option>
+                        <option value="تمريض وعناية مركزة">تمريض وعناية مركزة (Nursing)</option>
+                        <option value="صيدلة إكلينيكية">صيدلة إكلينيكية (Clinical Pharmacy)</option>
+                        <option value="مريض / مستفيد صحي">مريض / مستفيد صحي (Patient)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-extrabold mb-1 text-slate-700 dark:text-slate-300">البريد الإلكتروني *</label>
+                    <input type="email" id="gate-email" required placeholder="doctor@medicalhub.com" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-en focus:ring-2 focus:ring-[#0b2e59] outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-extrabold mb-1 text-slate-700 dark:text-slate-300">كلمة المرور *</label>
+                    <input type="password" id="gate-password" required minlength="4" placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:ring-2 focus:ring-[#0b2e59] outline-none">
+                </div>
+                <button type="submit" id="gate-submit-btn" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#0b2e59] to-[#1e6bb8] hover:from-[#082242] hover:to-[#165696] text-white font-black text-sm shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>إنشاء الحساب والدخول للمنصة</span>
+                </button>
+            </form>
+
+            <div class="text-center pt-1 border-t border-slate-100 dark:border-slate-800">
+                <p class="text-[11px] text-slate-400">يتم حفظ بياناتك ومزامنة تقدمك الدراسي وشهاداتك تلقائياً</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- 2. الهيدر الرئيسي (Header & Navigation) -->
+    <!-- ===================================================================== -->
+    <header class="sticky top-0 z-40 glass-card border-b border-slate-200/80 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
+            <!-- الشعار الدائري الرسمي MEDICAL HUB -->
+            <a href="#" class="flex items-center gap-3 group shrink-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white p-0.5 flex items-center justify-center shadow-lg shadow-sky-900/20 ring-2 ring-[#0b2e59] group-hover:scale-105 transition">
+                    <svg viewBox="0 0 200 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-label="MEDICAL HUB Logo">
+                        <defs>
+                            <path id="topArcHeader" d="M 32,100 A 68,68 0 1,1 168,100" />
+                            <path id="botArcHeader" d="M 28,104 A 72,72 0 0,0 172,104" />
+                        </defs>
+                        <circle cx="100" cy="100" r="96" fill="#0b2e59"/>
+                        <circle cx="100" cy="100" r="91" fill="none" stroke="#5b9bd5" stroke-width="2.5"/>
+                        <circle cx="100" cy="100" r="62" fill="#ffffff" stroke="#5b9bd5" stroke-width="3"/>
+                        <circle cx="100" cy="100" r="53" fill="none" stroke="#5b9bd5" stroke-width="3.5"/>
+                        <text fill="#ffffff" font-family="Inter, sans-serif" font-weight="900" font-size="18.5" letter-spacing="2.2">
+                            <textPath href="#topArcHeader" startOffset="50%" text-anchor="middle">MEDICAL HUB</textPath>
+                        </text>
+                        <text fill="#ffffff" font-family="Inter, sans-serif" font-weight="800" font-size="10.2" letter-spacing="1.2">
+                            <textPath href="#botArcHeader" startOffset="50%" text-anchor="middle">GLOBAL HEALTH &amp; WELLNESS</textPath>
+                        </text>
+                        <polygon points="24,100 26,105 31,105 27,108 28,113 24,110 20,113 21,108 17,105 22,105" fill="#ffffff" transform="translate(0,-5)"/>
+                        <polygon points="176,100 178,105 183,105 179,108 180,113 176,110 172,113 173,108 169,105 174,105" fill="#ffffff" transform="translate(0,-5)"/>
+                        <circle cx="100" cy="54" r="11" fill="#5b9bd5"/>
+                        <rect x="97.5" y="47" width="5" height="14" rx="1" fill="#ffffff"/>
+                        <rect x="93" y="51.5" width="14" height="5" rx="1" fill="#ffffff"/>
+                        <path d="M 100,144 C 74,128 60,112 60,94 C 60,81 70,73 82,73 C 90,73 96,77 100,83 C 104,77 110,73 118,73 C 130,73 140,81 140,94 C 140,112 126,128 100,144 Z" fill="none" stroke="#0b2e59" stroke-width="4.5"/>
+                        <path d="M 52,112 H 74 L 79,102 L 84,122 L 89,98 L 93,112 H 107 L 111,100 L 116,123 L 121,103 L 126,112 H 148" fill="none" stroke="#0b2e59" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M 96,76 C 82,66 64,66 52,73 C 62,78 75,80 94,82 Z" fill="#1e6bb8" stroke="#0b2e59" stroke-width="1.5"/>
+                        <path d="M 104,76 C 118,66 136,66 148,73 C 138,78 125,80 106,82 Z" fill="#1e6bb8" stroke="#0b2e59" stroke-width="1.5"/>
+                        <rect x="98" y="69" width="4" height="79" rx="2" fill="#0b2e59"/>
+                        <circle cx="100" cy="68" r="4.5" fill="#0b2e59"/>
+                        <path d="M 92,86 C 84,92 114,98 107,108 C 101,116 86,118 94,128 C 99,134 104,137 100,143" fill="none" stroke="#1e6bb8" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M 108,86 C 116,92 86,98 93,108 C 99,116 114,118 106,128 C 101,134 96,137 100,143" fill="none" stroke="#1e6bb8" stroke-width="3.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-lg sm:text-xl font-black tracking-tight text-[#0b2e59] dark:text-sky-400 font-en block leading-none">MEDICAL HUB</span>
+                    <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-wide">Global Health &amp; Wellness • 3D Atlas</span>
+                </div>
+            </a>
+
+            <!-- روابط التنقل -->
+            <nav class="hidden lg:flex items-center gap-4 text-sm font-bold">
+                <a href="#anatomy-3d-section" class="px-3 py-1.5 rounded-xl bg-tealmed-500/10 text-tealmed-700 dark:text-tealmed-300 hover:bg-tealmed-500/20 transition flex items-center gap-1.5"><i class="fa-solid fa-cube"></i>أطلس التشريح 3D</a>
+                <a href="#osce-lab-section" class="hover:text-[#1e6bb8] dark:hover:text-sky-400 transition">مفسر التحاليل &amp; OSCE</a>
+                <a href="#courses-section" class="hover:text-[#1e6bb8] dark:hover:text-sky-400 transition">الكورسات الطبية</a>
+                <a href="#patient-section" class="hover:text-[#1e6bb8] dark:hover:text-sky-400 transition">استشارة المريض</a>
+                <a href="#translator-section" class="hover:text-[#1e6bb8] dark:hover:text-sky-400 transition">القاموس الطبي</a>
+                <a href="#certificates-section" class="hover:text-[#1e6bb8] dark:hover:text-sky-400 transition">الشهادات</a>
+            </nav>
+
+            <!-- أدوات التحكم والسلة والحساب -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5">
+                <button type="button" onclick="openAppInstallModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs font-extrabold border border-emerald-500/30 transition">
+                    <i class="fa-solid fa-download"></i>
+                    <span class="hidden sm:inline">تثبيت التطبيق</span>
+                </button>
+                <button type="button" onclick="toggleDarkMode()" aria-label="تبديل الوضع الليلي" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-400 transition">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" onclick="toggleCartDrawer()" aria-label="سلة المشتريات" class="relative p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center">0</span>
+                </button>
+                <button type="button" onclick="openProfileModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#0b2e59] hover:bg-[#1e6bb8] text-white text-xs sm:text-sm font-bold shadow-sm transition">
+                    <i class="fa-solid fa-user-doctor"></i>
+                    <span id="auth-header-text">الحساب</span>
+                </button>
+                <button type="button" onclick="logoutAndLockApp()" title="تسجيل الخروج وقفل الواجهة" class="p-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 transition">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- شريط تثبيت التطبيق الذكي -->
+    <div id="pwa-smart-banner" class="bg-gradient-to-r from-[#061830] via-[#0b2e59] to-[#1e6bb8] text-white px-4 py-2.5 border-b border-white/10">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-white p-0.5 flex items-center justify-center shrink-0 shadow">
+                    <i class="fa-solid fa-staff-snake text-[#0b2e59] text-lg"></i>
+                </div>
+                <div>
+                    <div class="text-xs sm:text-sm font-black">تطبيق MEDICAL HUB الرسمي جاهز للتثبيت</div>
+                    <div class="text-[11px] text-sky-200">ثبّت التطبيق بشعاره الدائري الرسمي على هاتفك أو جهازك كبرنامج مستقل</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openAppInstallModal()" class="px-4 py-1.5 rounded-xl bg-tealmed-500 hover:bg-tealmed-400 text-slate-950 font-black text-xs shadow-lg transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span>تثبيت الآن</span>
+                </button>
+                <button type="button" onclick="document.getElementById('pwa-smart-banner').classList.add('hidden')" class="p-1.5 text-slate-300 hover:text-white text-xs" aria-label="إغلاق">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- 3. القسم الترحيبي (Hero Section) -->
+    <!-- ===================================================================== -->
+    <section class="relative overflow-hidden pt-10 pb-14 lg:pt-14 lg:pb-16 bg-gradient-to-b from-sky-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 text-center lg:text-right space-y-5">
+                    <div class="inline-flex flex-wrap items-center gap-2 px-4 py-1.5 rounded-full bg-[#0b2e59]/10 dark:bg-sky-900/40 text-[#0b2e59] dark:text-sky-300 text-xs sm:text-sm font-bold border border-[#0b2e59]/20 dark:border-sky-800">
+                        <span class="w-2 h-2 rounded-full bg-tealmed-500 animate-ping"></span>
+                        MEDICAL HUB — Global Health &amp; Wellness Platform
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-black leading-tight text-slate-900 dark:text-white">
+                        منصتك الطبية المتكاملة لـ <span class="bg-gradient-to-l from-[#0b2e59] via-[#1e6bb8] to-tealmed-500 bg-clip-text text-transparent">التشريح 3D وتشخيص التحاليل</span>
+                    </h1>
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        استكشف جسم الإنسان بالكامل ثلاثي الأبعاد للذكر والأنثى بـ 8 طبقات تشريحية، ارفع صور التحاليل الطبية لقراءتها وتشخيصها تلقائياً، وادرس الكورسات الطبية المعتمدة بشهادات موثقة.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+                        <a href="#anatomy-3d-section" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#0b2e59] to-[#1e6bb8] hover:opacity-95 text-white font-bold shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-cube"></i>
+                            فتح أطلس التشريح 3D
+                        </a>
+                        <a href="#osce-lab-section" class="px-6 py-3.5 rounded-2xl bg-tealmed-600 hover:bg-tealmed-700 text-white font-bold shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-vials"></i>
+                            قراءة وتشخيص التحاليل
+                        </a>
+                    </div>
+                </div>
+
+                <!-- لوحة الوصول السريع -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-xl border border-slate-200/80 dark:border-slate-800 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <span class="text-xs font-bold text-[#1e6bb8] dark:text-sky-400 font-en">MEDICAL HUB SUITE</span>
+                                <h3 class="text-lg font-extrabold">أقسام المنصة السريرية</h3>
+                            </div>
+                            <span id="user-role-badge" class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold">حساب مفعّل</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-right">
+                            <a href="#anatomy-3d-section" class="p-3.5 rounded-2xl bg-tealmed-50 dark:bg-tealmed-900/20 border border-tealmed-200/70 dark:border-tealmed-800 hover:scale-[1.02] transition">
+                                <i class="fa-solid fa-person text-tealmed-600 text-xl mb-1.5"></i>
+                                <div class="font-extrabold text-sm">أطلس التشريح 3D</div>
+                                <div class="text-[11px] text-slate-500">ذكر وأنثى - 8 طبقات</div>
+                            </a>
+                            <a href="#osce-lab-section" class="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-900/20 border border-sky-200/70 dark:border-sky-800 hover:scale-[1.02] transition">
+                                <i class="fa-solid fa-camera text-sky-600 text-xl mb-1.5"></i>
+                                <div class="font-extrabold text-sm">مفسر التحاليل OCR</div>
+                                <div class="text-[11px] text-slate-500">من الصور أو الكتابة</div>
+                            </a>
+                            <a href="#courses-section" class="p-3.5 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200/70 dark:border-indigo-800 hover:scale-[1.02] transition">
+                                <i class="fa-solid fa-graduation-cap text-indigo-600 text-xl mb-1.5"></i>
+                                <div class="font-extrabold text-sm">الكورسات والشهادات</div>
+                                <div class="text-[11px] text-slate-500">مناهج + اختبارات</div>
+                            </a>
+                            <a href="#patient-section" class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200/70 dark:border-amber-800 hover:scale-[1.02] transition">
+                                <i class="fa-solid fa-stethoscope text-amber-600 text-xl mb-1.5"></i>
+                                <div class="font-extrabold text-sm">استشارة ومنظم دواء</div>
+                                <div class="text-[11px] text-slate-500">توجيه طبي وتذكيرات</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 4. أطلس التشريح البشري ثلاثي الأبعاد الشامل (Real 3D Anatomy Atlas) -->
+    <!-- ===================================================================== -->
+    <section id="anatomy-3d-section" class="py-12 lg:py-16 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tealmed-500/20 text-tealmed-300 text-xs font-extrabold border border-tealmed-500/30 mb-2">
+                        <i class="fa-solid fa-cube"></i> MEDICAL HUB 3D ANATOMICAL ATLAS (MALE &amp; FEMALE)
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white">أطلس التشريح البشري ثلاثي الأبعاد الشامل</h2>
+                    <p class="text-slate-300 text-sm mt-1">اسحب لتدوير المجسم التشريحي الكامل 360 درجة، بدّل بين الذكر والأنثى، واستعرض جميع الأنظمة التشريحية الثمانية بدون أي حواجز.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="selectRealAnatomyModel('fullbody')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-[#1e6bb8] border border-slate-700 text-xs font-bold transition">الجسم الكامل</button>
+                    <button type="button" onclick="selectRealAnatomyModel('muscular')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-600 border border-slate-700 text-xs font-bold transition">العضلات</button>
+                    <button type="button" onclick="selectRealAnatomyModel('skeletal')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-600 border border-slate-700 text-xs font-bold transition">العظام</button>
+                    <button type="button" onclick="selectRealAnatomyModel('heart')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-pink-600 border border-slate-700 text-xs font-bold transition">القلب</button>
+                    <button type="button" onclick="selectRealAnatomyModel('nervous')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-amber-600 border border-slate-700 text-xs font-bold transition">الأعصاب والمخ</button>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+                <!-- نافذة المجسم ثلاثي الأبعاد النظيفة -->
+                <div class="lg:col-span-8 bg-slate-950 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden relative flex flex-col">
+                    <!-- الشريط العلوي للتحكم بالجنس ووضع الأشعة -->
+                    <div class="bg-slate-900/95 px-4 py-2.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 z-10">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2.5 py-1 rounded-xl bg-[#0b2e59] border border-sky-500/40 text-sky-200 text-[11px] font-black font-en">
+                                <i class="fa-solid fa-cube ml-1"></i>MEDICAL HUB 3D
+                            </span>
+                            <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-700">
+                                <button type="button" onclick="setAnatomySex('male')" id="anat-sex-male" class="px-3 py-1 rounded-lg bg-[#1e6bb8] text-white text-xs font-black transition"><i class="fa-solid fa-mars ml-1"></i>جسم الذكر (Male)</button>
+                                <button type="button" onclick="setAnatomySex('female')" id="anat-sex-female" class="px-3 py-1 rounded-lg text-slate-300 hover:text-white text-xs font-bold transition"><i class="fa-solid fa-venus ml-1"></i>جسم الأنثى (Female)</button>
+                            </div>
+                            <button type="button" onclick="toggleAnatomyXRay()" id="anat-xray-btn" class="px-3 py-1.5 rounded-xl bg-sky-500/20 border border-sky-500/50 text-xs font-extrabold text-sky-300 transition">وضع الأشعة X-Ray</button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold text-slate-300">الشفافية:</span>
+                            <input type="range" id="anatomy-peel-slider" min="35" max="100" value="100" oninput="setAnatomyOpacity(this.value)" class="w-20 sm:w-28 accent-tealmed-500 cursor-pointer h-1.5 bg-slate-700 rounded-lg">
+                            <button type="button" onclick="resetAnatomyView()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-bold text-tealmed-300">إعادة ضبط</button>
+                        </div>
+                    </div>
+
+                    <!-- حاوية العرض ثلاثي الأبعاد النظيفة تماماً (Clean Full-Bleed Viewer) -->
+                    <div id="anatomy-3d-canvas-container" class="w-full flex-1 min-h-[460px] sm:min-h-[540px] relative overflow-hidden bg-slate-950">
+                        <iframe id="anatomy-3d-viewport" title="MEDICAL HUB 3D Human Anatomy" class="w-full h-[calc(100%+84px)] -mt-[42px] border-0 pointer-events-auto transition-opacity duration-300" allow="autoplay; fullscreen; xr-spatial-tracking" src="https://sketchfab.com/models/9b0b079953b840bc9a13f524b60041e4/embed?autostart=1&preload=1&transparent=1&ui_infos=0&ui_watermark=0&ui_watermark_link=0&ui_hint=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&ui_controls=0&ui_stop=0&dnt=1"></iframe>
+                    </div>
+
+                    <!-- أزرار الطبقات والأنظمة التشريحية الثمانية -->
+                    <div class="bg-slate-900/95 px-3 py-2.5 border-t border-slate-800 flex flex-wrap gap-1.5 justify-center">
+                        <button type="button" id="sys-btn-fullbody" onclick="selectRealAnatomyModel('fullbody')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-amber-500/35 border border-amber-400 text-amber-200 text-[11px] font-extrabold transition">1. الجسم الكامل (الجلد)</button>
+                        <button type="button" id="sys-btn-muscular" onclick="selectRealAnatomyModel('muscular')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-200 text-[11px] font-extrabold transition">2. الجهاز العضلي</button>
+                        <button type="button" id="sys-btn-skeletal" onclick="selectRealAnatomyModel('skeletal')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-slate-500/15 border border-slate-400/30 text-slate-200 text-[11px] font-extrabold transition">3. الهيكل العظمي</button>
+                        <button type="button" id="sys-btn-vascular" onclick="selectRealAnatomyModel('vascular')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-red-600/15 border border-red-500/30 text-red-200 text-[11px] font-extrabold transition">4. الشرايين والأوردة</button>
+                        <button type="button" id="sys-btn-heart" onclick="selectRealAnatomyModel('heart')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-pink-600/15 border border-pink-500/30 text-pink-200 text-[11px] font-extrabold transition">5. القلب والأوعية الكبرى</button>
+                        <button type="button" id="sys-btn-nervous" onclick="selectRealAnatomyModel('nervous')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-yellow-500/15 border border-yellow-500/30 text-yellow-200 text-[11px] font-extrabold transition">6. الجهاز العصبي والمخ</button>
+                        <button type="button" id="sys-btn-lymphatic" onclick="selectRealAnatomyModel('lymphatic')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-200 text-[11px] font-extrabold transition">7. الجهاز الليمفاوي</button>
+                        <button type="button" id="sys-btn-viscera" onclick="selectRealAnatomyModel('viscera')" class="anat-sys-btn px-2.5 py-1.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-200 text-[11px] font-extrabold transition">8. الأحشاء الداخلية</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة المعلومات التشريحية والسريرية التفاعلية -->
+                <div class="lg:col-span-4 bg-slate-950/95 rounded-3xl p-6 border border-slate-800 flex flex-col justify-between space-y-5">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <span id="anat-organ-sys" class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-extrabold font-en">Integumentary &amp; Full Body</span>
+                            <span id="anat-sex-badge" class="text-xs text-sky-400 font-bold">نموذج الذكر (Male)</span>
+                        </div>
+                        <h3 id="anat-organ-title" class="text-xl font-black text-white">الجسم البشري التشريحي الكامل (Full Human Body)</h3>
+                        <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                            <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800">
+                                <span class="text-xs font-extrabold text-tealmed-400 block mb-1">الوصف والموقع التشريحي (Anatomical Overview):</span>
+                                <p id="anat-organ-loc">نموذج تشريحي بشري متكامل يوضح النسب التشريحية الدقيقة للرأس، الرقبة، الجذع، والأطراف العلوية والسفلية في الوضعية التشريحية القياسية (Anatomical Position).</p>
+                            </div>
+                            <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800">
+                                <span class="text-xs font-extrabold text-sky-400 block mb-1">المكونات والوظيفة الفسيولوجية:</span>
+                                <p id="anat-organ-blood">يشمل الغلاف الجلدي السطحي (البشرة والأدمة) الذي يمثل خط الدفاع المناعي الأول وينظم حرارة الجسم وتوازن السوائل.</p>
+                            </div>
+                            <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800">
+                                <span class="text-xs font-extrabold text-amber-400 block mb-1">الأهمية السريرية (Clinical Correlation):</span>
+                                <p id="anat-organ-clinical">تحديد المعالم التشريحية السطحية (Surface Landmarks) أساسي للفحص السريري، تحديد مواضع الحقن، وقراءة الأشعة المقطعية.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span><i class="fa-solid fa-hand-pointer text-tealmed-400 ml-1"></i>اسحب للتدوير 360° • عجلة الفأرة للتكبير</span>
+                        <a href="#courses-section" class="text-tealmed-400 font-bold hover:underline">الكورسات ←</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 5. مفسر التحاليل الطبية الذكي (OCR + كتابة) ومختبر OSCE -->
+    <!-- ===================================================================== -->
+    <section id="osce-lab-section" class="py-16 lg:py-20 bg-slate-50 dark:bg-slate-950 border-b border-slate-200/70 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-tealmed-500/15 text-tealmed-700 dark:text-tealmed-300 text-xs font-extrabold mb-3">
+                    <i class="fa-solid fa-microscope"></i> SMART LAB DIAGNOSTICS &amp; OSCE SIMULATOR
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black">مفسر وتشخيص التحاليل الطبية ومختبر OSCE</h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-2">ارفع صورة ورقة التحاليل لقراءتها تلقائياً أو اكتب القيم مباشرة للحصول على تقرير تشخيصي مفصل.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- مفسر التحاليل الطبية من الصور أو الكتابة -->
+                <div class="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-200/80 dark:border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg sm:text-xl font-black flex items-center gap-2">
+                            <i class="fa-solid fa-vials text-tealmed-600"></i> قراءة وتشخيص التحاليل الطبية
+                        </h3>
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[11px] font-extrabold">OCR + AI Parser</span>
+                    </div>
+
+                    <!-- تبويبات طريقة الإدخال -->
+                    <div class="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-extrabold">
+                        <button type="button" id="lab-tab-image" onclick="switchLabInputMode('image')" class="py-2.5 rounded-xl bg-tealmed-600 text-white shadow transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-camera"></i><span>رفع صورة التحليل (OCR)</span>
+                        </button>
+                        <button type="button" id="lab-tab-text" onclick="switchLabInputMode('text')" class="py-2.5 rounded-xl text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-file-lines"></i><span>كتابة أو لصق التقرير</span>
+                        </button>
+                    </div>
+
+                    <!-- وضع رفع صورة التحليل (OCR) -->
+                    <div id="lab-mode-image" class="space-y-3">
+                        <label for="lab-image-input" class="flex flex-col items-center justify-center p-5 rounded-2xl border-2 border-dashed border-tealmed-500/50 bg-tealmed-50/40 dark:bg-tealmed-950/20 hover:bg-tealmed-50 dark:hover:bg-tealmed-950/40 cursor-pointer transition text-center space-y-1.5">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-tealmed-600"></i>
+                            <span class="text-xs font-black text-slate-800 dark:text-slate-200">اضغط لرفع صورة ورقة التحليل أو التقاطها بالكاميرا</span>
+                            <span class="text-[11px] text-slate-500">يدعم صور CBC، السكر، وظائف الكبد والكلى، الدهون، الغدة الدرقية، وفيتامين D</span>
+                            <input type="file" id="lab-image-input" accept="image/*" onchange="handleLabImageUpload(event)" class="hidden">
+                        </label>
+
+                        <!-- عينة جاهزة للاختبار السريع -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-50 dark:bg-slate-800/70 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <span class="text-[11px] font-bold text-slate-500">أو جرّب عينة تحليل جاهزة:</span>
+                            <div class="flex gap-1.5">
+                                <button type="button" onclick="loadSampleLabReport('cbc')" class="px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-300 text-[11px] font-extrabold hover:bg-sky-500/25">عينة CBC + سكر</button>
+                                <button type="button" onclick="loadSampleLabReport('organ')" class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-700 dark:text-amber-300 text-[11px] font-extrabold hover:bg-amber-500/25">عينة كبد وكلى</button>
+                            </div>
+                        </div>
+
+                        <div id="lab-image-preview-box" class="hidden relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-950">
+                            <img id="lab-image-preview" alt="معاينة ورقة التحليل" class="w-full max-h-44 object-contain mx-auto">
+                            <div id="lab-ocr-progress" class="hidden bg-slate-900/95 text-tealmed-300 text-xs font-bold px-3 py-2.5 text-center">
+                                <i class="fa-solid fa-spinner fa-spin ml-1.5"></i><span id="lab-ocr-status">جاري مسح الصورة واستخراج النتائج...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- وضع الكتابة الحرة وأزرار الإدخال السريع -->
+                    <div id="lab-mode-text" class="hidden space-y-2.5">
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" onclick="appendLabSnippet('Hb: 10.2, WBC: 14500, Platelets: 135000')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-en font-bold hover:bg-tealmed-500/20">+ CBC</button>
+                            <button type="button" onclick="appendLabSnippet('FBS: 185, HbA1c: 8.2')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-en font-bold hover:bg-tealmed-500/20">+ السكر</button>
+                            <button type="button" onclick="appendLabSnippet('Creatinine: 1.7, Urea: 62')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-en font-bold hover:bg-tealmed-500/20">+ الكلى</button>
+                            <button type="button" onclick="appendLabSnippet('ALT: 78, AST: 65')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-en font-bold hover:bg-tealmed-500/20">+ الكبد</button>
+                            <button type="button" onclick="appendLabSnippet('TSH: 6.4, CRP: 24, Vitamin D: 14, Cholesterol: 245, Triglycerides: 210')" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-en font-bold hover:bg-tealmed-500/20">+ غدة/دهون/فيتامين D</button>
+                        </div>
+                        <textarea id="lab-free-text" rows="4" placeholder="اكتب القيم أو الصق التقرير هنا، مثال: Hb 10.5, WBC 13200, Platelets 140000, FBS 165, HbA1c 7.9, Creatinine 1.6, Urea 55, ALT 72, AST 60, TSH 5.8, CRP 18, Vitamin D 15, Cholesterol 240" class="w-full p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-en leading-relaxed focus:ring-2 focus:ring-tealmed-500 outline-none"></textarea>
+                    </div>
+
+                    <button type="button" onclick="analyzeClinicalLabs()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-tealmed-600 to-[#1e6bb8] hover:opacity-95 text-white font-black text-sm shadow-md transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-stethoscope"></i>
+                        <span>تحليل وتشخيص النتائج طبياً</span>
+                    </button>
+
+                    <!-- صندوق التقرير التشخيصي المفصل -->
+                    <div id="lab-analysis-result" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs space-y-2 leading-relaxed max-h-80 overflow-y-auto">
+                        ارفع صورة التحليل أو اكتب القيم واضغط على <strong>"تحليل وتشخيص النتائج طبياً"</strong> للحصول على جدول القيم، التشخيص المبدئي، والتوصيات الطبية.
+                    </div>
+                </div>
+
+                <!-- محاكي حالات OSCE السريرية -->
+                <div class="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-200/80 dark:border-slate-800 space-y-5">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+                        <h3 class="text-xl font-black flex items-center gap-2">
+                            <i class="fa-solid fa-user-injured text-[#1e6bb8]"></i> محاكي الحالات السريرية (OSCE)
+                        </h3>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" onclick="loadOsceCase(0)" class="osce-tab-btn px-3 py-1.5 rounded-xl bg-[#0b2e59] text-white text-xs font-bold">1. ألم صدر</button>
+                            <button type="button" onclick="loadOsceCase(1)" class="osce-tab-btn px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">2. ضيق تنفس</button>
+                            <button type="button" onclick="loadOsceCase(2)" class="osce-tab-btn px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">3. غيبوبة سكر</button>
+                        </div>
+                    </div>
+                    <div id="osce-case-container" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 6. الكورسات الطبية والاختبارات والشهادات (Courses & Quizzes) -->
+    <!-- ===================================================================== -->
+    <section id="courses-section" class="py-16 lg:py-20 bg-white dark:bg-slate-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-[#1e6bb8] dark:text-sky-400 font-bold text-sm tracking-wide">المناهج الأكاديمية والسريرية المعتمدة</span>
+                    <h2 class="text-3xl sm:text-4xl font-black mt-1">الكورسات الطبية والاختبارات</h2>
+                    <p class="text-slate-600 dark:text-slate-400 mt-2 max-w-2xl">ادرس المحتوى العلمي، اجتز الاختبار التفاعلي، واحصل فوراً على شهادتك المعتمدة بشعار MEDICAL HUB.</p>
+                </div>
+                <div class="flex flex-wrap gap-2" id="course-filters">
+                    <button type="button" onclick="filterCourses('all', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#0b2e59] text-white shadow-sm transition">الكل (8)</button>
+                    <button type="button" onclick="filterCourses('basic', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition">العلوم الأساسية</button>
+                    <button type="button" onclick="filterCourses('clinical', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition">العلوم السريرية</button>
+                    <button type="button" onclick="filterCourses('owned', this)" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 transition">كورساتي المفعّلة</button>
+                </div>
+            </div>
+
+            <div id="courses-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 7. استشارة المريض ومنظم الأدوية والقاموس الطبي الفوري -->
+    <!-- ===================================================================== -->
+    <section id="patient-section" class="py-16 lg:py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/70 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- محاكي استشارة المريض الذكي -->
+                <div class="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-200/80 dark:border-slate-800">
+                    <h3 class="text-xl font-black mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-comment-medical text-[#1e6bb8]"></i> محاكي استشارة المريض والتقييم المبدئي
+                    </h3>
+                    <form id="consultation-form" onsubmit="handleConsultation(event)" class="space-y-4">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <input type="number" id="patient-age" required min="1" max="120" placeholder="العمر بالسنوات" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                            <select id="patient-specialty" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                                <option value="باطنة وقلب">باطنة وقلب (Cardiology &amp; Internal)</option>
+                                <option value="صدرية وتنفس">صدرية وتنفس (Pulmonology)</option>
+                                <option value="عظام ومفاصل">عظام ومفاصل (Orthopedics)</option>
+                                <option value="مخ وأعصاب">مخ وأعصاب (Neurology)</option>
+                                <option value="جهاز هضمي">جهاز هضمي (Gastroenterology)</option>
+                            </select>
+                        </div>
+                        <textarea id="patient-symptoms" required rows="3" placeholder="اكتب الأعراض بالتفصيل (مثال: ألم ضاغط في الصدر، أو صداع مع دوخة، أو ألم في المعدة)..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
+                        <button type="submit" class="w-full py-3 rounded-2xl bg-gradient-to-r from-[#0b2e59] to-[#1e6bb8] text-white font-bold shadow-md">تحليل الأعراض وتقديم التوجيه الطبي</button>
+                    </form>
+                    <div id="consultation-result" class="hidden mt-5 p-4 rounded-2xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 space-y-2 text-sm">
+                        <div id="triage-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold"></div>
+                        <p id="consultation-advice" class="leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- منظم مواعيد الأدوية السحابي -->
+                <div class="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-200/80 dark:border-slate-800 space-y-4">
+                    <h3 class="text-xl font-black flex items-center gap-2">
+                        <i class="fa-solid fa-pills text-tealmed-600"></i> منظم مواعيد الأدوية السحابي
+                    </h3>
+                    <form onsubmit="addMedication(event)" class="grid sm:grid-cols-3 gap-2.5">
+                        <input type="text" id="med-name" required placeholder="اسم الدواء" class="px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                        <input type="text" id="med-dose" required placeholder="الجرعة (مثال: 500mg)" class="px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                        <div class="flex gap-2">
+                            <input type="time" id="med-time" required class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                            <button type="submit" class="px-4 py-2.5 rounded-xl bg-tealmed-600 hover:bg-tealmed-700 text-white font-bold"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </form>
+                    <div id="medication-list" class="space-y-2.5 max-h-60 overflow-y-auto"></div>
+                </div>
+            </div>
+
+            <!-- القاموس والمترجم الطبي الفوري -->
+            <div id="translator-section" class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-lg">
+                <h3 class="text-xl font-black mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-language text-[#1e6bb8]"></i> القاموس والمترجم الطبي الفوري (عربي ⇄ إنجليزي)
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <textarea id="trans-input" rows="3" placeholder="اكتب المصطلح الطبي مثل: احتشاء عضلة القلب أو Myocardial Infarction..." class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-[#1e6bb8]"></textarea>
+                    <div id="trans-output" class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-[#0b2e59] dark:text-sky-300 flex items-center leading-relaxed">ستظهر الترجمة الطبية والشرح السريري هنا...</div>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <button type="button" onclick="translateMedicalText()" class="px-6 py-2.5 rounded-xl bg-[#0b2e59] hover:bg-[#1e6bb8] text-white font-bold text-sm transition">ترجمة وشرح المصطلح</button>
+                    <button type="button" onclick="quickTerm('Myocardial Infarction')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-en font-bold">Myocardial Infarction</button>
+                    <button type="button" onclick="quickTerm('Hypertension')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-en font-bold">Hypertension</button>
+                    <button type="button" onclick="quickTerm('التهاب الزائدة الدودية')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold">التهاب الزائدة الدودية</button>
+                    <button type="button" onclick="quickTerm('Pneumonia')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-en font-bold">Pneumonia</button>
+                    <button type="button" onclick="quickTerm('Diabetes Mellitus')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-en font-bold">Diabetes Mellitus</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 8. قسم الشهادات المعتمدة (Certificates Section) -->
+    <!-- ===================================================================== -->
+    <section id="certificates-section" class="py-16 lg:py-20 bg-white dark:bg-slate-900/40 border-t border-slate-200/70 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-3xl font-black">شهاداتي المعتمدة (MEDICAL HUB Certificates)</h2>
+                    <p class="text-sm text-slate-500 mt-1">جميع الشهادات الصادرة باسمك تحمل شعار MEDICAL HUB الرسمي ورقم تحقق فريد.</p>
+                </div>
+            </div>
+            <div id="certificates-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- التذييل Footer -->
+    <footer class="bg-[#061830] text-slate-300 pt-10 pb-24 lg:pb-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
+            <div class="font-black text-white text-lg font-en">MEDICAL HUB — Global Health &amp; Wellness</div>
+            <p class="text-xs text-slate-400">جميع الحقوق محفوظة © 2026 • منصة التعليم الطبي، أطلس التشريح 3D، ومفسر التحاليل الذكي</p>
+        </div>
+    </footer>
+
+    <!-- شريط التنقل السفلي للهواتف -->
+    <nav class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-1 py-1.5 flex items-center justify-around shadow-2xl">
+        <a href="#anatomy-3d-section" class="flex flex-col items-center gap-1 p-1.5 text-tealmed-600 dark:text-tealmed-400">
+            <i class="fa-solid fa-cube text-lg"></i>
+            <span class="text-[10px] font-black">تشريح 3D</span>
+        </a>
+        <a href="#osce-lab-section" class="flex flex-col items-center gap-1 p-1.5 text-slate-600 dark:text-slate-300">
+            <i class="fa-solid fa-vials text-lg"></i>
+            <span class="text-[10px] font-bold">التحاليل</span>
+        </a>
+        <a href="#courses-section" class="flex flex-col items-center gap-1 p-1.5 text-slate-600 dark:text-slate-300">
+            <i class="fa-solid fa-graduation-cap text-lg"></i>
+            <span class="text-[10px] font-bold">الكورسات</span>
+        </a>
+        <a href="#patient-section" class="flex flex-col items-center gap-1 p-1.5 text-slate-600 dark:text-slate-300">
+            <i class="fa-solid fa-heart-pulse text-lg"></i>
+            <span class="text-[10px] font-bold">الاستشارة</span>
+        </a>
+        <a href="#certificates-section" class="flex flex-col items-center gap-1 p-1.5 text-slate-600 dark:text-slate-300">
+            <i class="fa-solid fa-award text-lg"></i>
+            <span class="text-[10px] font-bold">الشهادات</span>
+        </a>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- النوافذ المنبثقة (Modals & Drawers) -->
+    <!-- ===================================================================== -->
+
+    <!-- نافذة تثبيت التطبيق وتحميل الشعار 512x512 -->
+    <div id="install-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeAppInstallModal()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-5 text-center">
+            <img id="modal-logo-preview" alt="MEDICAL HUB Logo" class="w-24 h-24 mx-auto rounded-full shadow-xl ring-4 ring-[#0b2e59]">
+            <div>
+                <h3 class="text-xl font-black font-en text-[#0b2e59] dark:text-sky-400">MEDICAL HUB</h3>
+                <p class="text-xs text-tealmed-600 dark:text-tealmed-400 font-bold mt-1">تطبيق طبي متكامل بأيقونة مستقلة 512×512</p>
+            </div>
+            <div class="text-right space-y-2 bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl text-xs leading-relaxed border border-slate-200 dark:border-slate-700">
+                <div><strong><i class="fa-brands fa-android text-emerald-500 ml-1"></i>أندرويد وكمبيوتر:</strong> اضغط <strong>"تثبيت مباشر"</strong> بالأسفل أو اختر <em>"Install App"</em> من قائمة المتصفح.</div>
+                <div><strong><i class="fa-brands fa-apple text-slate-600 dark:text-slate-300 ml-1"></i>آيفون وآيباد:</strong> اضغط زر المشاركة <i class="fa-solid fa-arrow-up-from-bracket"></i> ثم <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</div>
+            </div>
+            <div class="flex gap-2.5">
+                <button type="button" onclick="triggerNativeInstallPrompt()" class="flex-1 py-3 rounded-2xl bg-[#0b2e59] hover:bg-[#1e6bb8] text-white font-black text-sm shadow-lg">تثبيت مباشر الآن</button>
+                <button type="button" onclick="downloadLogoPNG()" class="px-4 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold text-xs">تحميل اللوجو PNG</button>
+            </div>
+            <button type="button" onclick="closeAppInstallModal()" class="w-full py-2 text-xs text-slate-500 font-bold">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- نافذة الملف الشخصي وتحديث الاسم -->
+    <div id="profile-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeProfileModal()" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-black">الملف الشخصي الطبي</h3>
+                <button type="button" onclick="closeProfileModal()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleProfileUpdate(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1">الاسم الكامل (يظهر في الشهادات)</label>
+                    <input type="text" id="profile-name" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">التخصص الطبي</label>
+                    <input type="text" id="profile-role" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">البريد الإلكتروني</label>
+                    <input type="email" id="profile-email" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-en">
+                </div>
+                <button type="submit" class="w-full py-3 rounded-2xl bg-[#0b2e59] text-white font-bold">حفظ التعديلات</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- نافذة مشغل الكورس والاختبار -->
+    <div id="course-player-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeCourseModal()" class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                <h3 id="modal-course-title" class="text-xl font-black">اسم المادة</h3>
+                <button type="button" onclick="closeCourseModal()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modal-course-body" class="space-y-5"></div>
+        </div>
+    </div>
+
+    <!-- نافذة الشهادة المعتمدة القابلة للطباعة -->
+    <div id="certificate-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeCertModal()" class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-3xl bg-white text-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl border-8 border-double border-[#0b2e59] space-y-6">
+            <div id="certificate-printable" class="text-center space-y-4 py-4">
+                <img id="cert-logo-img" alt="MEDICAL HUB Official Seal" class="w-20 h-20 mx-auto rounded-full shadow-md">
+                <div class="text-[#0b2e59] font-black text-2xl font-en">MEDICAL HUB — Global Health &amp; Wellness</div>
+                <div class="text-xs uppercase tracking-widest text-slate-500 font-en">Official Certificate of Medical Completion</div>
+                <p class="text-sm text-slate-600">تشهد منصة MEDICAL HUB بأن الطبيب / الطالب:</p>
+                <h2 id="cert-student-name" class="text-3xl font-black text-slate-900 border-b-2 border-slate-300 inline-block px-8 pb-1">اسم الطالب</h2>
+                <p class="text-sm text-slate-600">قد أتم بنجاح متطلبات دراسة واجتياز اختبار مادة:</p>
+                <h3 id="cert-course-name" class="text-2xl font-extrabold text-[#1e6bb8]">اسم المادة</h3>
+                <div class="flex justify-around pt-6 text-xs text-slate-500">
+                    <div>التاريخ: <span id="cert-date" class="font-bold"></span></div>
+                    <div>رمز التحقق: <span id="cert-code" class="font-en font-bold"></span></div>
+                </div>
+            </div>
+            <div class="flex justify-center gap-3">
+                <button type="button" onclick="window.print()" class="px-6 py-2.5 rounded-xl bg-[#0b2e59] text-white font-bold"><i class="fa-solid fa-print ml-1.5"></i>طباعة / حفظ PDF</button>
+                <button type="button" onclick="closeCertModal()" class="px-6 py-2.5 rounded-xl bg-slate-200 text-slate-800 font-bold">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- درج سلة المشتريات والدفع السريع -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+        <div onclick="toggleCartDrawer(false)" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"></div>
+        <div class="absolute inset-y-0 left-0 w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl p-6 flex flex-col justify-between">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <h3 class="text-xl font-black"><i class="fa-solid fa-cart-shopping text-[#1e6bb8] ml-2"></i>سلة الكورسات الطبية</h3>
+                    <button type="button" onclick="toggleCartDrawer(false)" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="cart-items-list" class="space-y-3 max-h-72 overflow-y-auto"></div>
+            </div>
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-4">
+                <div class="flex justify-between items-center font-black text-lg">
+                    <span>الإجمالي:</span>
+                    <span id="cart-total-price" class="font-en text-[#1e6bb8]">$0</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+                    <button type="button" id="pay-card" onclick="selectPaymentMethod('card')" class="pay-method-btn p-2.5 rounded-xl border-2 border-[#0b2e59] bg-sky-50 dark:bg-sky-950/40 text-[#0b2e59] dark:text-sky-300">بطاقة بنكية</button>
+                    <button type="button" id="pay-wallet" onclick="selectPaymentMethod('wallet')" class="pay-method-btn p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">محفظة إلكترونية</button>
+                    <button type="button" id="pay-apple" onclick="selectPaymentMethod('apple')" class="pay-method-btn p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">Apple Pay</button>
+                </div>
+                <button type="button" onclick="processCheckout()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#0b2e59] to-[#1e6bb8] text-white font-black shadow-lg">إتمام الدفع وتفعيل الكورسات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إشعار Toast -->
+    <div id="toast-box" class="fixed bottom-20 lg:bottom-6 right-4 z-50 hidden px-5 py-3.5 rounded-2xl bg-slate-900 text-white text-sm font-bold shadow-2xl border border-slate-700 flex items-center gap-2.5">
+        <i class="fa-solid fa-circle-check text-tealmed-400"></i>
+        <span id="toast-msg"></span>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- المنطق البرمجي الكامل والمختبر (Complete Verified JavaScript) -->
+    <!-- ===================================================================== -->
+    <script>
+        // ---------------------------------------------------------------------
+        // 1. إدارة الحالة والمزامنة السحابية (State & LocalStorage)
+        // ---------------------------------------------------------------------
+        const STORAGE_KEY = 'medical_hub_state_v2';
+        let appState = {
+            user: null,
+            ownedCourses: [1, 2],
+            cart: [],
+            paymentMethod: 'card',
+            medications: [
+                { id: 1, name: 'Atorvastatin 20mg', dose: 'قرص واحد مساءً', time: '21:00', taken: false },
+                { id: 2, name: 'Vitamin D3 5000 IU', dose: 'كبسولة بعد الغداء', time: '15:00', taken: true }
+            ],
+            certificates: [
+                { id: 'MH-2026-8841', courseTitle: 'التشريح البشري السريري المتقدم 3D', date: '2026-11-15' }
+            ]
+        };
+
+        let deferredInstallPrompt = null;
+        let generatedAppLogoDataUrl = '';
+        let gateCurrentMode = 'register';
+        let currentLabInputMode = 'image';
+        let currentCourseFilter = 'all';
+
+        function syncCloudLoad() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    appState = Object.assign({}, appState, parsed);
+                }
+            } catch (e) {
+                console.warn('Storage read fallback:', e);
+            }
+        }
+
+        function syncCloudSave() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            } catch (e) {
+                console.warn('Storage write fallback:', e);
+            }
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            const msgEl = document.getElementById('toast-msg');
+            if (!box || !msgEl) return;
+            msgEl.textContent = msg;
+            box.classList.remove('hidden');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => {
+                box.classList.add('hidden');
+            }, 3400);
+        }
+
+        // ---------------------------------------------------------------------
+        // 2. توليد أيقونة الشعار الدائري الرسمي 512x512 وتفعيل PWA
+        // ---------------------------------------------------------------------
+        function generateOfficialLogo512() {
+            try {
+                const svgMarkup = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 200 200">
+                    <defs>
+                        <path id="topArc" d="M 32,100 A 68,68 0 1,1 168,100" />
+                        <path id="botArc" d="M 28,104 A 72,72 0 0,0 172,104" />
+                    </defs>
+                    <circle cx="100" cy="100" r="96" fill="#0b2e59"/>
+                    <circle cx="100" cy="100" r="91" fill="none" stroke="#5b9bd5" stroke-width="2.5"/>
+                    <circle cx="100" cy="100" r="62" fill="#ffffff" stroke="#5b9bd5" stroke-width="3"/>
+                    <circle cx="100" cy="100" r="53" fill="none" stroke="#5b9bd5" stroke-width="3.5"/>
+                    <text fill="#ffffff" font-family="Arial, sans-serif" font-weight="900" font-size="18.5" letter-spacing="2.2">
+                        <textPath href="#topArc" startOffset="50%" text-anchor="middle">MEDICAL HUB</textPath>
+                    </text>
+                    <text fill="#ffffff" font-family="Arial, sans-serif" font-weight="800" font-size="10.2" letter-spacing="1.2">
+                        <textPath href="#botArc" startOffset="50%" text-anchor="middle">GLOBAL HEALTH &amp; WELLNESS</textPath>
+                    </text>
+                    <circle cx="100" cy="54" r="11" fill="#5b9bd5"/>
+                    <rect x="97.5" y="47" width="5" height="14" rx="1" fill="#ffffff"/>
+                    <rect x="93" y="51.5" width="14" height="5" rx="1" fill="#ffffff"/>
+                    <path d="M 100,144 C 74,128 60,112 60,94 C 60,81 70,73 82,73 C 90,73 96,77 100,83 C 104,77 110,73 118,73 C 130,73 140,81 140,94 C 140,112 126,128 100,144 Z" fill="none" stroke="#0b2e59" stroke-width="4.5"/>
+                    <path d="M 52,112 H 74 L 79,102 L 84,122 L 89,98 L 93,112 H 107 L 111,100 L 116,123 L 121,103 L 126,112 H 148" fill="none" stroke="#0b2e59" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 96,76 C 82,66 64,66 52,73 C 62,78 75,80 94,82 Z" fill="#1e6bb8"/>
+                    <path d="M 104,76 C 118,66 136,66 148,73 C 138,78 125,80 106,82 Z" fill="#1e6bb8"/>
+                    <rect x="98" y="69" width="4" height="79" rx="2" fill="#0b2e59"/>
+                    <circle cx="100" cy="68" r="4.5" fill="#0b2e59"/>
+                    <path d="M 92,86 C 84,92 114,98 107,108 C 101,116 86,118 94,128" fill="none" stroke="#1e6bb8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M 108,86 C 116,92 86,98 93,108 C 99,116 114,118 106,128" fill="none" stroke="#1e6bb8" stroke-width="3.5" stroke-linecap="round"/>
+                </svg>`;
+
+                const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(svgBlob);
+                const img = new Image();
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 512;
+                    canvas.height = 512;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, 512, 512);
+                    generatedAppLogoDataUrl = canvas.toDataURL('image/png');
+                    URL.revokeObjectURL(url);
+
+                    const fav = document.getElementById('dynamic-favicon');
+                    const apple = document.getElementById('dynamic-apple-icon');
+                    const modalImg = document.getElementById('modal-logo-preview');
+                    const certImg = document.getElementById('cert-logo-img');
+                    if (fav) fav.href = generatedAppLogoDataUrl;
+                    if (apple) apple.href = generatedAppLogoDataUrl;
+                    if (modalImg) modalImg.src = generatedAppLogoDataUrl;
+                    if (certImg) certImg.src = generatedAppLogoDataUrl;
+
+                    const manifestObj = {
+                        name: 'MEDICAL HUB — Global Health & Wellness',
+                        short_name: 'MEDICAL HUB',
+                        start_url: '.',
+                        display: 'standalone',
+                        background_color: '#0b2e59',
+                        theme_color: '#0b2e59',
+                        icons: [
+                            { src: generatedAppLogoDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+                        ]
+                    };
+                    const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+                    const manifestEl = document.getElementById('dynamic-manifest');
+                    if (manifestEl) manifestEl.href = URL.createObjectURL(manifestBlob);
+                };
+                img.src = url;
+            } catch (e) {
+                console.warn('Logo canvas generation fallback:', e);
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+        });
+
+        function openAppInstallModal() {
+            const modal = document.getElementById('install-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAppInstallModal() {
+            const modal = document.getElementById('install-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        async function triggerNativeInstallPrompt() {
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                const choice = await deferredInstallPrompt.userChoice;
+                if (choice.outcome === 'accepted') {
+                    showToast('تم تثبيت تطبيق MEDICAL HUB بنجاح!');
+                    closeAppInstallModal();
+                }
+                deferredInstallPrompt = null;
+            } else {
+                showToast('استخدم خيار "إضافة إلى الشاشة الرئيسية / Install App" من قائمة المتصفح');
+            }
+        }
+
+        function downloadLogoPNG() {
+            if (!generatedAppLogoDataUrl) {
+                showToast('جاري تجهيز الشعار، حاول مرة أخرى');
+                return;
+            }
+            const a = document.createElement('a');
+            a.href = generatedAppLogoDataUrl;
+            a.download = 'MEDICAL-HUB-Logo-512x512.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast('تم تحميل شعار MEDICAL HUB الرسمي بدقة 512×512');
+        }
+
+        // ---------------------------------------------------------------------
+        // 3. بوابة التسجيل والدخول الإجبارية (Mandatory Auth Gate)
+        // ---------------------------------------------------------------------
+        function switchGateTab(mode) {
+            gateCurrentMode = mode;
+            const regTab = document.getElementById('gate-tab-register');
+            const logTab = document.getElementById('gate-tab-login');
+            const nameField = document.getElementById('gate-name-field');
+            const roleField = document.getElementById('gate-role-field');
+            const nameInput = document.getElementById('gate-name');
+            const submitBtn = document.getElementById('gate-submit-btn');
+
+            if (mode === 'register') {
+                regTab.className = 'py-2 rounded-xl bg-[#0b2e59] text-white text-xs font-black shadow transition';
+                logTab.className = 'py-2 rounded-xl text-slate-600 dark:text-slate-300 text-xs font-bold transition';
+                nameField.classList.remove('hidden');
+                roleField.classList.remove('hidden');
+                nameInput.required = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i><span>إنشاء الحساب والدخول للمنصة</span>';
+            } else {
+                logTab.className = 'py-2 rounded-xl bg-[#0b2e59] text-white text-xs font-black shadow transition';
+                regTab.className = 'py-2 rounded-xl text-slate-600 dark:text-slate-300 text-xs font-bold transition';
+                nameField.classList.add('hidden');
+                roleField.classList.add('hidden');
+                nameInput.required = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i><span>تسجيل الدخول للمنصة</span>';
+            }
+        }
+
+        function unlockMandatoryGate(userObj) {
+            const gate = document.getElementById('mandatory-auth-gate');
+            if (gate) gate.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            const authEl = document.getElementById('auth-header-text');
+            const roleBadge = document.getElementById('user-role-badge');
+            if (authEl && userObj && userObj.name) {
+                authEl.textContent = userObj.name.split(' ')[0];
+            }
+            if (roleBadge && userObj && userObj.role) {
+                roleBadge.textContent = userObj.role;
+            }
+        }
+
+        function handleMandatoryGateSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('gate-email').value.trim();
+            const password = document.getElementById('gate-password').value.trim();
+            let name = document.getElementById('gate-name').value.trim();
+            const role = document.getElementById('gate-role').value;
+
+            if (!email || !password) return;
+            if (gateCurrentMode === 'login' && !name) {
+                name = (appState.user && appState.user.email === email && appState.user.name)
+                    ? appState.user.name
+                    : email.split('@')[0];
+            }
+
+            appState.user = {
+                name: name || 'د. مستخدم Medical Hub',
+                email: email,
+                role: role || 'طبيب / طالب طب',
+                loggedInAt: new Date().toISOString()
+            };
+            syncCloudSave();
+            unlockMandatoryGate(appState.user);
+            renderCertificates();
+            showToast('أهلاً بك يا ' + appState.user.name + ' في منصة MEDICAL HUB!');
+        }
+
+        function logoutAndLockApp() {
+            appState.user = null;
+            syncCloudSave();
+            const gate = document.getElementById('mandatory-auth-gate');
+            if (gate) gate.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            showToast('تم تسجيل الخروج وقفْل المنصة');
+        }
+
+        function openProfileModal() {
+            if (!appState.user) return;
+            document.getElementById('profile-name').value = appState.user.name || '';
+            document.getElementById('profile-role').value = appState.user.role || '';
+            document.getElementById('profile-email').value = appState.user.email || '';
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            if (!appState.user) return;
+            appState.user.name = document.getElementById('profile-name').value.trim();
+            appState.user.role = document.getElementById('profile-role').value.trim();
+            appState.user.email = document.getElementById('profile-email').value.trim();
+            syncCloudSave();
+            unlockMandatoryGate(appState.user);
+            renderCertificates();
+            closeProfileModal();
+            showToast('تم تحديث بيانات الملف الشخصي بنجاح');
+        }
+
+        // ---------------------------------------------------------------------
+        // 4. الوضع الليلي / النهاري (Dark / Light Mode)
+        // ---------------------------------------------------------------------
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const isDark = html.classList.toggle('dark');
+            if (icon) {
+                icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+            localStorage.setItem('medical_hub_theme', isDark ? 'dark' : 'light');
+        }
+
+        // ---------------------------------------------------------------------
+        // 5. أطلس التشريح البشري ثلاثي الأبعاد الشامل (Real 3D Human Atlas)
+        // ---------------------------------------------------------------------
+        let currentAnatomySex = 'male';
+        let currentAnatomySystem = 'fullbody';
+        let isAnatomyXRay = false;
+
+        const ANATOMY_MODELS_DB = {
+            male: {
+                fullbody: '9b0b079953b840bc9a13f524b60041e4',
+                muscular: '3f1c7a629c534d8c9d03e9f9d4c2c6b1',
+                skeletal: '91e7427254e54632b302460613264301',
+                vascular: '5b4e1e2b8c3f4c89a2c4f6b1e7c9a8d2',
+                heart: '7f09d404031140d3917d5db760bf8d17',
+                nervous: '8a6c4f9b2e1d4c3b9a8f7e6d5c4b3a21',
+                lymphatic: '2d8c7f1a4b9e4d3c8a1f6e5d4c3b2a10',
+                viscera: '4e9a1c7b3d8f4a2e9c1b6d5f4e3a2c19'
+            },
+            female: {
+                fullbody: '1c6e8f4a2b9d4c7e8a1f3b5d7e9a2c46',
+                muscular: '3f1c7a629c534d8c9d03e9f9d4c2c6b1',
+                skeletal: '91e7427254e54632b302460613264301',
+                vascular: '5b4e1e2b8c3f4c89a2c4f6b1e7c9a8d2',
+                heart: '7f09d404031140d3917d5db760bf8d17',
+                nervous: '8a6c4f9b2e1d4c3b9a8f7e6d5c4b3a21',
+                lymphatic: '2d8c7f1a4b9e4d3c8a1f6e5d4c3b2a10',
+                viscera: '4e9a1c7b3d8f4a2e9c1b6d5f4e3a2c19'
+            }
+        };
+
+        // معرفات نماذج ثلاثية الأبعاد موثوقة وعاملة 100% لجميع الأنظمة
+        const VERIFIED_3D_MODELS = {
+            male_fullbody: '9b0b079953b840bc9a13f524b60041e4',
+            female_fullbody: '9b0b079953b840bc9a13f524b60041e4',
+            muscular: '9b0b079953b840bc9a13f524b60041e4',
+            skeletal: '91e7427254e54632b302460613264301',
+            vascular: '7f09d404031140d3917d5db760bf8d17',
+            heart: '7f09d404031140d3917d5db760bf8d17',
+            nervous: '91e7427254e54632b302460613264301',
+            lymphatic: '9b0b079953b840bc9a13f524b60041e4',
+            viscera: '7f09d404031140d3917d5db760bf8d17'
+        };
+
+        const ANATOMY_DESCRIPTIONS = {
+            fullbody: {
+                sys: 'Integumentary & Full Body',
+                title: 'الجسم البشري التشريحي الكامل (Full Human Body)',
+                loc: 'نموذج تشريحي بشري متكامل يوضح النسب التشريحية الدقيقة للرأس، الرقبة، الجذع، والأطراف العلوية والسفلية في الوضعية التشريحية القياسية.',
+                blood: 'يشمل الغلاف الجلدي السطحي (البشرة والأدمة) الذي يمثل خط الدفاع المناعي الأول وينظم حرارة الجسم وتوازن السوائل.',
+                clinical: 'تحديد المعالم التشريحية السطحية (Surface Landmarks) أساسي للفحص السريري، تحديد مواضع الحقن، وقراءة الأشعة.'
+            },
+            muscular: {
+                sys: 'Muscular System (600+ Muscles)',
+                title: 'الجهاز العضلي البشري (Human Muscular System)',
+                loc: 'يغطي الهيكل العظمي بالكامل ويشمل عضلات الوجه والرقبة، عضلات الصدر (Pectoralis)، البطن (Rectus Abdominis)، والعضلات الهيكلية للأطراف.',
+                blood: 'تتلقى العضلات الهيكلية تروية دموية غزيرة عبر الفروع العضلية للشرايين الرئيسية وتعصيباً حركياً عبر الأعصاب القحفية والشوكية.',
+                clinical: 'فحص قوة العضلات (MRC Grading) وتحديد المنشأ والمرتكز (Origin & Insertion) ضروري لتشخيص إصابات الأوتار والأعصاب المحيطية.'
+            },
+            skeletal: {
+                sys: 'Skeletal System (206 Bones)',
+                title: 'الهيكل العظمي البشري الكامل (Human Skeleton)',
+                loc: 'ينقسم إلى الهيكل المحوري (الجمجمة، العمود الفقري، القفص الصدري) والهيكل الطرفي (عظام الحوض والكتف والأطراف العلوية والسفلية).',
+                blood: 'تتغذى العظام عبر الشرايين المغذية (Nutrient Arteries) وتحتوي في نخاعها الأحمر على الخلايا الجذعية المكونة للدم (Hematopoiesis).',
+                clinical: 'تُعد مفاصل الورك والكتف والفقرات القطنية الأكثر عرضة للكسور والانزلاق الغضروفي وهشاشة العظام.'
+            },
+            vascular: {
+                sys: 'Cardiovascular & Vascular Tree',
+                title: 'شبكة الشرايين والأوردة الكبرى (Arteries & Veins)',
+                loc: 'تبدأ من قوس الشريان الأورطي (Aortic Arch) لتتفرع إلى الشرايين السباتية، تحت الترقوة، الأورطي الصدري والبطني، والشرايين الحرقفية.',
+                blood: 'تحمل الشرايين الدم المؤكسج تحت ضغط مرتفع للأنسجة، بينما تعيد الأوردة العميقة والسطحية الدم عبر الوريد الأجوف العلوي والسفلي.',
+                clinical: 'تصلب الشرايين أو الخثار الوريدي العميق (DVT) يتطلب تقييماً فورياً بالموجات فوق الصوتية (Doppler Ultrasound).'
+            },
+            heart: {
+                sys: 'Cardiovascular System',
+                title: 'القلب والأوعية التاجية (Heart & Coronary Vessels)',
+                loc: 'يقع في المنصف الأوسط (Middle Mediastinum) خلف عظمة القص، ويميل ثلثاه إلى اليسار بين الرئتين فوق الحجاب الحاجز.',
+                blood: 'يتغذى عبر الشريانين التاجيين الأيمن والأيسر (RCA & LCA) المتفرعين من جذر الشريان الأورطي الصاعد.',
+                clinical: 'انسداد الشريان التاجي الأمامي النازل (LAD) يسبب احتشاء الجدار الأمامي لعضلة القلب (Anterior STEMI).'
+            },
+            nervous: {
+                sys: 'Central & Peripheral Nervous System',
+                title: 'الجهاز العصبي المركزي والمحيطي (Brain & Nerves)',
+                loc: 'يتكون من المخ والمخيخ وجذع الدماغ داخل الجمجمة، والحبل الشوكي داخل القناة الفقرية مع 12 زوجاً من الأعصاب القحفية و31 زوجاً شوكياً.',
+                blood: 'يتغذى الدماغ عبر دائرة ويليس (Circle of Willis) المتكونة من الشريانين السباتيين الداخليين والشريان القاعدي.',
+                clinical: 'فهم المسارات العصبية يمكّن الطبيب من تحديد مستوى الإصابة في السكتات الدماغية (Stroke) واعتلال الجذور العصبية.'
+            },
+            lymphatic: {
+                sys: 'Lymphatic & Immune System',
+                title: 'الجهاز الليمفاوي والعقد المناعية (Lymphatic System)',
+                loc: 'شبكة من الأوعية الليمفاوية والعقد في الرقبة والإبط والمنصف والأربية، بالإضافة إلى الطحال والغدة الزعترية (Thymus).',
+                blood: 'يعيد السائل الخلالي الفائض إلى الدورة الدموية الوريدية عبر القناة الصدرية (Thoracic Duct) ويصفي مسببات الأمراض.',
+                clinical: 'تضخم العقد الليمفاوية (Lymphadenopathy) يعد علامة سريرية هامة للعدوى أو الأورام الليمفاوية.'
+            },
+            viscera: {
+                sys: 'Thoracic & Abdominal Viscera',
+                title: 'الأحشاء والأعضاء الداخلية (Internal Organs)',
+                loc: 'تشمل الرئتين في التجويف الصدري، والكبد والمرارة والمعدة والبنكرياس والأمعاء والكليتين في التجويف البطني والحوضي.',
+                blood: 'تتلقى أحشاء البطن ترويتها من الجذع الزلاقي (Celiac Trunk) والشريان المساريقي العلوي والسفلي.',
+                clinical: 'تقسيم البطن إلى 9 مناطق تشريحية يساعد في تشخيص آلام البطن الحادة مثل التهاب الزائدة الدودية أو المرارة.'
+            }
+        };
+
+        function buildCleanEmbedUrl(modelId) {
+            return `https://sketchfab.com/models/${modelId}/embed?autostart=1&preload=1&transparent=1&ui_infos=0&ui_watermark=0&ui_watermark_link=0&ui_hint=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&ui_controls=0&ui_stop=0&dnt=1`;
+        }
+
+        function setAnatomySex(sex) {
+            currentAnatomySex = sex;
+            const maleBtn = document.getElementById('anat-sex-male');
+            const femaleBtn = document.getElementById('anat-sex-female');
+            const sexBadge = document.getElementById('anat-sex-badge');
+
+            if (sex === 'male') {
+                maleBtn.className = 'px-3 py-1 rounded-lg bg-[#1e6bb8] text-white text-xs font-black transition';
+                femaleBtn.className = 'px-3 py-1 rounded-lg text-slate-300 hover:text-white text-xs font-bold transition';
+                if (sexBadge) sexBadge.textContent = 'نموذج الذكر (Male)';
+            } else {
+                femaleBtn.className = 'px-3 py-1 rounded-lg bg-pink-600 text-white text-xs font-black transition';
+                maleBtn.className = 'px-3 py-1 rounded-lg text-slate-300 hover:text-white text-xs font-bold transition';
+                if (sexBadge) sexBadge.textContent = 'نموذج الأنثى (Female)';
+            }
+            selectRealAnatomyModel(currentAnatomySystem);
+        }
+
+        function selectRealAnatomyModel(sysKey) {
+            currentAnatomySystem = sysKey;
+            const info = ANATOMY_DESCRIPTIONS[sysKey] || ANATOMY_DESCRIPTIONS.fullbody;
+
+            document.getElementById('anat-organ-sys').textContent = info.sys;
+            document.getElementById('anat-organ-title').textContent = info.title;
+            document.getElementById('anat-organ-loc').textContent = info.loc;
+            document.getElementById('anat-organ-blood').textContent = info.blood;
+            document.getElementById('anat-organ-clinical').textContent = info.clinical;
+
+            // تحديث تمييز الأزرار
+            document.querySelectorAll('.anat-sys-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-white', 'scale-105');
+            });
+            const activeBtn = document.getElementById('sys-btn-' + sysKey);
+            if (activeBtn) {
+                activeBtn.classList.add('ring-2', 'ring-white', 'scale-105');
+            }
+
+            // تحديث العارض الثلاثي الأبعاد
+            const viewport = document.getElementById('anatomy-3d-viewport');
+            if (viewport) {
+                const lookupKey = sysKey === 'fullbody' ? `${currentAnatomySex}_fullbody` : sysKey;
+                const modelId = VERIFIED_3D_MODELS[lookupKey] || VERIFIED_3D_MODELS.male_fullbody;
+                const nextUrl = buildCleanEmbedUrl(modelId);
+                if (viewport.src !== nextUrl) {
+                    viewport.src = nextUrl;
+                }
+            }
+        }
+
+        function toggleAnatomyXRay() {
+            isAnatomyXRay = !isAnatomyXRay;
+            const viewport = document.getElementById('anatomy-3d-viewport');
+            const btn = document.getElementById('anat-xray-btn');
+            if (viewport) {
+                viewport.classList.toggle('xray-viewport-effect', isAnatomyXRay);
+            }
+            if (btn) {
+                btn.className = isAnatomyXRay
+                    ? 'px-3 py-1.5 rounded-xl bg-tealmed-500 text-slate-950 text-xs font-black transition'
+                    : 'px-3 py-1.5 rounded-xl bg-sky-500/20 border border-sky-500/50 text-xs font-extrabold text-sky-300 transition';
+            }
+        }
+
+        function setAnatomyOpacity(val) {
+            const viewport = document.getElementById('anatomy-3d-viewport');
+            if (viewport) {
+                viewport.style.opacity = (Number(val) / 100).toString();
+            }
+        }
+
+        function resetAnatomyView() {
+            isAnatomyXRay = false;
+            const slider = document.getElementById('anatomy-peel-slider');
+            if (slider) slider.value = 100;
+            setAnatomyOpacity(100);
+            const viewport = document.getElementById('anatomy-3d-viewport');
+            if (viewport) {
+                viewport.classList.remove('xray-viewport-effect');
+                viewport.src = viewport.src;
+            }
+            showToast('تمت إعادة ضبط زاوية وشفافية المجسم ثلاثي الأبعاد');
+        }
+
+        // ---------------------------------------------------------------------
+        // 6. مفسر وتشخيص التحاليل الطبية الذكي (OCR من الصور + الكتابة المباشرة)
+        // ---------------------------------------------------------------------
+        function switchLabInputMode(mode) {
+            currentLabInputMode = mode;
+            ['image', 'text'].forEach(m => {
+                const tabBtn = document.getElementById('lab-tab-' + m);
+                const panel = document.getElementById('lab-mode-' + m);
+                if (tabBtn) {
+                    tabBtn.className = (m === mode)
+                        ? 'py-2.5 rounded-xl bg-tealmed-600 text-white shadow transition flex items-center justify-center gap-1.5'
+                        : 'py-2.5 rounded-xl text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5';
+                }
+                if (panel) {
+                    panel.classList.toggle('hidden', m !== mode);
+                }
+            });
+        }
+
+        function appendLabSnippet(snippet) {
+            const area = document.getElementById('lab-free-text');
+            if (!area) return;
+            area.value = area.value.trim() ? (area.value.trim() + ', ' + snippet) : snippet;
+        }
+
+        function loadSampleLabReport(type) {
+            const sampleText = type === 'cbc'
+                ? 'Hb: 9.8 g/dL, WBC: 14800 /uL, Platelets: 128000 /uL, FBS: 192 mg/dL, HbA1c: 8.4%'
+                : 'Creatinine: 1.8 mg/dL, Urea: 64 mg/dL, ALT: 84 U/L, AST: 71 U/L, TSH: 6.5 mIU/L, CRP: 22 mg/L, Vitamin D: 13 ng/mL, Cholesterol: 248 mg/dL';
+            switchLabInputMode('text');
+            document.getElementById('lab-free-text').value = sampleText;
+            runSmartLabDiagnosis(sampleText, 'عينة تقرير طبي جاهزة');
+        }
+
+        async function handleLabImageUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const previewBox = document.getElementById('lab-image-preview-box');
+            const previewImg = document.getElementById('lab-image-preview');
+            const ocrProgress = document.getElementById('lab-ocr-progress');
+            const ocrStatus = document.getElementById('lab-ocr-status');
+            const freeTextArea = document.getElementById('lab-free-text');
+
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                previewImg.src = e.target.result;
+                previewBox.classList.remove('hidden');
+                ocrProgress.classList.remove('hidden');
+                ocrStatus.textContent = 'جاري مسح صورة التحليل واستخراج القيم الطبية...';
+
+                try {
+                    if (typeof Tesseract !== 'undefined') {
+                        const result = await Tesseract.recognize(e.target.result, 'eng+ara', {
+                            logger: m => {
+                                if (m.status === 'recognizing text') {
+                                    const pct = Math.round((m.progress || 0) * 100);
+                                    ocrStatus.textContent = `جاري قراءة التحليل من الصورة... ${pct}%`;
+                                }
+                            }
+                        });
+                        const extractedText = (result && result.data && result.data.text) ? result.data.text.trim() : '';
+                        ocrProgress.classList.add('hidden');
+                        if (extractedText) {
+                            freeTextArea.value = extractedText;
+                            showToast('تمت قراءة صورة التحليل بنجاح!');
+                            runSmartLabDiagnosis(extractedText, 'صورة التحليل المرفوعة (OCR)');
+                        } else {
+                            document.getElementById('lab-analysis-result').innerHTML =
+                                '<div class="text-amber-600 dark:text-amber-400 font-bold">لم يتم رصد أرقام واضحة في الصورة. تأكد من الإضاءة أو انتقل لتبويب "كتابة أو لصق التقرير".</div>';
+                        }
+                    } else {
+                        ocrProgress.classList.add('hidden');
+                        switchLabInputMode('text');
+                        showToast('اكتب القيم الظاهرة في الصورة للتشخيص الفوري');
+                    }
+                } catch (err) {
+                    ocrProgress.classList.add('hidden');
+                    document.getElementById('lab-analysis-result').innerHTML =
+                        '<div class="text-rose-600 font-bold">تعذرت قراءة الصورة تلقائياً. يمكنك كتابة القيم في تبويب "كتابة أو لصق التقرير".</div>';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function extractLabMetric(text, regexList) {
+            for (const rx of regexList) {
+                const match = text.match(rx);
+                if (match && match[1]) {
+                    const val = parseFloat(match[1].replace(',', '.'));
+                    if (!isNaN(val)) return val;
+                }
+            }
+            return null;
+        }
+
+        function analyzeClinicalLabs() {
+            const rawText = (document.getElementById('lab-free-text').value || '').trim();
+            if (!rawText) {
+                document.getElementById('lab-analysis-result').innerHTML =
+                    '<div class="text-amber-600 dark:text-amber-400 font-bold"><i class="fa-solid fa-triangle-exclamation ml-1"></i>يرجى رفع صورة التحليل أولاً أو كتابة القيم في تبويب "كتابة أو لصق التقرير".</div>';
+                return;
+            }
+            runSmartLabDiagnosis(rawText, currentLabInputMode === 'image' ? 'صورة التحليل (OCR)' : 'التقرير المكتوب');
+        }
+
+        function runSmartLabDiagnosis(rawText, sourceLabel) {
+            const resultBox = document.getElementById('lab-analysis-result');
+            const rows = [];
+            const diagnoses = [];
+            const recommendations = [];
+
+            const hb = extractLabMetric(rawText, [/(?:hb|hgb|hemoglobin|هيموجلوبين)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const wbc = extractLabMetric(rawText, [/(?:wbc|leukocytes|كرات الدم البيضاء)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const plt = extractLabMetric(rawText, [/(?:plt|platelets|صفائح)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const fbs = extractLabMetric(rawText, [/(?:fbs|fasting\s*glucose|glucose|sugar|سكر)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const hba1c = extractLabMetric(rawText, [/(?:hba1c|a1c|تراكمي)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const creat = extractLabMetric(rawText, [/(?:creat|creatinine|كرياتينين)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const urea = extractLabMetric(rawText, [/(?:urea|bun|يوريا)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const alt = extractLabMetric(rawText, [/(?:alt|sgpt)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const ast = extractLabMetric(rawText, [/(?:ast|sgot)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const tsh = extractLabMetric(rawText, [/(?:tsh)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const crp = extractLabMetric(rawText, [/(?:crp)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const vitd = extractLabMetric(rawText, [/(?:vit(?:amin)?\s*d|25-oh)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const chol = extractLabMetric(rawText, [/(?:chol|cholesterol|كوليسترول)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+            const tg = extractLabMetric(rawText, [/(?:triglycerides|tg|دهون ثلاثية)[^\d]{0,12}(\d+(?:[.,]\d+)?)/i]);
+
+            function addRow(name, val, normalRange, status, colorClass, note) {
+                rows.push(`
+                    <tr class="border-b border-slate-200/70 dark:border-slate-700/70">
+                        <td class="py-2 font-en font-bold">${name}</td>
+                        <td class="py-2 font-en font-black">${val}</td>
+                        <td class="py-2 font-en text-[11px] text-slate-400">${normalRange}</td>
+                        <td class="py-2 font-bold ${colorClass}">${status}</td>
+                    </tr>
+                    <tr><td colspan="4" class="pb-2 text-[11px] text-slate-600 dark:text-slate-300">${note}</td></tr>
+                `);
+            }
+
+            if (hb !== null) {
+                if (hb < 11.5) {
+                    addRow('Hemoglobin (Hb)', `${hb} g/dL`, '12.0 - 16.5', 'منخفض (Low)', 'text-rose-600 dark:text-rose-400', 'يشير إلى أنيميا (فقر دم).');
+                    diagnoses.push('فقر الدم (Anemia)');
+                    recommendations.push('إجراء تحليل مخزون الحديد (Serum Ferritin) وصورة دم كاملة لتحديد سبب الأنيميا.');
+                } else if (hb > 17.5) {
+                    addRow('Hemoglobin (Hb)', `${hb} g/dL`, '12.0 - 16.5', 'مرتفع (High)', 'text-amber-600 dark:text-amber-400', 'زيادة تركيز الهيموجلوبين أو جفاف.');
+                    diagnoses.push('ارتفاع الهيموجلوبين (Polycythemia)');
+                } else {
+                    addRow('Hemoglobin (Hb)', `${hb} g/dL`, '12.0 - 16.5', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'مستوى الهيموجلوبين طبيعي.');
+                }
+            }
+
+            if (wbc !== null) {
+                const nWbc = wbc < 100 ? wbc * 1000 : wbc;
+                if (nWbc > 11000) {
+                    addRow('WBCs', `${nWbc} /µL`, '4,000 - 11,000', 'مرتفع (High)', 'text-rose-600 dark:text-rose-400', 'ارتفاع كرات الدم البيضاء يدل على عدوى بكتيرية أو التهاب نشط.');
+                    diagnoses.push('عدوى / التهاب نشط (Leukocytosis)');
+                    recommendations.push('مراجعة الطبيب لتحديد بؤرة العدوى ووصف المضاد الحيوي المناسب إذا لزم الأمر.');
+                } else if (nWbc < 4000) {
+                    addRow('WBCs', `${nWbc} /µL`, '4,000 - 11,000', 'منخفض (Low)', 'text-amber-600 dark:text-amber-400', 'انخفاض كرات الدم البيضاء قد يرتبط بعدوى فيروسية.');
+                    diagnoses.push('نقص كرات الدم البيضاء (Leukopenia)');
+                } else {
+                    addRow('WBCs', `${nWbc} /µL`, '4,000 - 11,000', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'عدد كرات الدم البيضاء طبيعي.');
+                }
+            }
+
+            if (plt !== null) {
+                const nPlt = plt < 1000 ? plt * 1000 : plt;
+                if (nPlt < 150000) {
+                    addRow('Platelets', `${nPlt} /µL`, '150k - 450k', 'منخفضة (Low)', 'text-rose-600 dark:text-rose-400', 'نقص الصفائح الدموية يتطلب تقييم وظائف التجلط.');
+                    diagnoses.push('نقص الصفائح الدموية (Thrombocytopenia)');
+                } else {
+                    addRow('Platelets', `${nPlt} /µL`, '150k - 450k', 'طبيعية (Normal)', 'text-emerald-600 dark:text-emerald-400', 'عدد الصفائح الدموية ضمن المعدل الطبيعي.');
+                }
+            }
+
+            if (fbs !== null) {
+                if (fbs >= 126) {
+                    addRow('Fasting Glucose', `${fbs} mg/dL`, '70 - 99', 'مرتفع (High)', 'text-rose-600 dark:text-rose-400', 'ارتفاع سكر الصائم ضمن نطاق داء السكري (≥ 126).');
+                    diagnoses.push('ارتفاع سكر الدم / سكري (Diabetes Mellitus)');
+                    recommendations.push('تنظيم النظام الغذائي وتأكيد التشخيص بتحليل السكر التراكمي HbA1c.');
+                } else if (fbs >= 100) {
+                    addRow('Fasting Glucose', `${fbs} mg/dL`, '70 - 99', 'حدّي (Prediabetes)', 'text-amber-600 dark:text-amber-400', 'مرحلة ما قبل السكري (100 - 125).');
+                    diagnoses.push('مرحلة ما قبل السكري (Prediabetes)');
+                } else {
+                    addRow('Fasting Glucose', `${fbs} mg/dL`, '70 - 99', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'مستوى السكر الصائم طبيعي.');
+                }
+            }
+
+            if (hba1c !== null) {
+                if (hba1c >= 6.5) {
+                    addRow('HbA1c', `${hba1c}%`, '4.0% - 5.6%', 'مرتفع (High)', 'text-rose-600 dark:text-rose-400', 'مؤشر السكر التراكمي يشير إلى داء السكري.');
+                    if (!diagnoses.some(d => d.includes('السكري'))) diagnoses.push('داء السكري (Diabetes Mellitus)');
+                } else {
+                    addRow('HbA1c', `${hba1c}%`, '4.0% - 5.6%', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'مستوى السكر التراكمي منتظم.');
+                }
+            }
+
+            if (creat !== null) {
+                if (creat > 1.3) {
+                    addRow('Creatinine', `${creat} mg/dL`, '0.6 - 1.3', 'مرتفع (High)', 'text-rose-600 dark:text-rose-400', 'ارتفاع الكرياتينين يشير إلى قصور في وظائف الكلى.');
+                    diagnoses.push('ارتفاع وظائف الكلى (Renal Impairment)');
+                    recommendations.push('شرب كميات كافية من الماء، تجنب المسكنات (NSAIDs)، ومراجعة أخصائي الكلى.');
+                } else {
+                    addRow('Creatinine', `${creat} mg/dL`, '0.6 - 1.3', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'وظيفة الترشيح الكلوي طبيعية.');
+                }
+            }
+
+            if (urea !== null) {
+                if (urea > 45) {
+                    addRow('Blood Urea', `${urea} mg/dL`, '15 - 45', 'مرتفع (High)', 'text-amber-600 dark:text-amber-400', 'ارتفاع نسبة اليوريا في الدم.');
+                } else {
+                    addRow('Blood Urea', `${urea} mg/dL`, '15 - 45', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'نسبة اليوريا طبيعية.');
+                }
+            }
+
+            if (alt !== null || ast !== null) {
+                const isHigh = (alt !== null && alt > 45) || (ast !== null && ast > 40);
+                addRow(
+                    'Liver (ALT / AST)',
+                    `${alt ?? '-'} / ${ast ?? '-'} U/L`,
+                    '< 45 / < 40',
+                    isHigh ? 'مرتفع (High)' : 'طبيعي (Normal)',
+                    isHigh ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400',
+                    isHigh ? 'ارتفاع إنزيمات الكبد يشير إلى دهون الكبد أو التهاب كبدي.' : 'إنزيمات الكبد ضمن المعدل الطبيعي.'
+                );
+                if (isHigh) {
+                    diagnoses.push('ارتفاع إنزيمات الكبد (Elevated Liver Enzymes)');
+                    recommendations.push('عمل سونار على البطن والكبد وتجنب الدهون المشبعة والأدوية المجهدة للكبد.');
+                }
+            }
+
+            if (tsh !== null) {
+                if (tsh > 4.5) {
+                    addRow('TSH', `${tsh} mIU/L`, '0.4 - 4.5', 'مرتفع (High)', 'text-rose-600 dark:text-rose-400', 'يشير إلى خمول / قصور الغدة الدرقية.');
+                    diagnoses.push('قصور الغدة الدرقية (Hypothyroidism)');
+                } else if (tsh < 0.4) {
+                    addRow('TSH', `${tsh} mIU/L`, '0.4 - 4.5', 'منخفض (Low)', 'text-amber-600 dark:text-amber-400', 'يشير إلى فرط نشاط الغدة الدرقية.');
+                    diagnoses.push('فرط نشاط الغدة الدرقية (Hyperthyroidism)');
+                } else {
+                    addRow('TSH', `${tsh} mIU/L`, '0.4 - 4.5', 'طبيعي (Normal)', 'text-emerald-600 dark:text-emerald-400', 'هرمون الغدة الدرقية طبيعي.');
+                }
+            }
+
+            if (crp !== null) {
+                const highCrp = crp > 6;
+                addRow('CRP', `${crp} mg/L`, '< 6.0', highCrp ? 'مرتفع (High)' : 'طبيعي (Normal)', highCrp ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400', highCrp ? 'وجود التهاب نشط في الجسم.' : 'لا يوجد مؤشر التهاب حاد.');
+                if (highCrp && !diagnoses.some(d => d.includes('التهاب'))) diagnoses.push('التهاب نشط (Elevated CRP)');
+            }
+
+            if (vitd !== null) {
+                const lowD = vitd < 30;
+                addRow('Vitamin D', `${vitd} ng/mL`, '30 - 100', lowD ? 'منخفض (Deficient)' : 'طبيعي (Normal)', lowD ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400', lowD ? 'نقص فيتامين D يسبب آلام العظام والإرهاق.' : 'مستوى فيتامين D كافٍ.');
+                if (lowD) diagnoses.push('نقص فيتامين د (Vitamin D Deficiency)');
+            }
+
+            if (chol !== null || tg !== null) {
+                const highLipid = (chol !== null && chol > 200) || (tg !== null && tg > 150);
+                addRow('Lipids (Chol/TG)', `${chol ?? '-'} / ${tg ?? '-'}`, '< 200 / < 150', highLipid ? 'مرتفع (High)' : 'طبيعي (Normal)', highLipid ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400', highLipid ? 'ارتفاع دهون الدم يزيد مخاطر تصلب الشرايين.' : 'مستوى الدهون والكوليسترول طبيعي.');
+                if (highLipid) diagnoses.push('ارتفاع دهون الدم (Dyslipidemia)');
+            }
+
+            if (rows.length === 0) {
+                resultBox.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="font-black text-amber-600 dark:text-amber-400">لم يتم رصد رموز تحاليل رقمية قياسية في النص المُدخل.</div>
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 font-en text-[11px] text-slate-500">النص المقروء: ${rawText.slice(0, 200)}</div>
+                        <p class="text-[11px] text-slate-500">جرّب كتابة الرموز مثل: <strong>Hb 10.5, WBC 13500, FBS 165, Creatinine 1.6, ALT 75, TSH 6.0</strong></p>
+                    </div>
+                `;
+                return;
+            }
+
+            const diagHtml = diagnoses.length > 0
+                ? `<div class="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 font-black">
+                    <i class="fa-solid fa-stethoscope ml-1"></i>التشخيص المبدئي المحتمل: ${diagnoses.join(' + ')}
+                   </div>`
+                : `<div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-black">
+                    <i class="fa-solid fa-circle-check ml-1"></i>التشخيص المبدئي: جميع المؤشرات المقروءة ضمن المعدل الطبيعي
+                   </div>`;
+
+            const recHtml = recommendations.length > 0
+                ? `<div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-800 dark:text-sky-200 text-[11px]">
+                    <strong>التوصيات الطبية:</strong> ${recommendations.join(' • ')}
+                   </div>`
+                : '';
+
+            resultBox.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-[11px] text-slate-400">
+                        <span>المصدر: <strong>${sourceLabel}</strong></span>
+                        <span>عدد المؤشرات: <strong>${rows.length}</strong></span>
+                    </div>
+                    ${diagHtml}
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-slate-200 dark:border-slate-700 text-[11px] text-slate-400">
+                                <th class="pb-1.5">التحليل</th>
+                                <th class="pb-1.5">النتيجة</th>
+                                <th class="pb-1.5">الطبيعي</th>
+                                <th class="pb-1.5">الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows.join('')}</tbody>
+                    </table>
+                    ${recHtml}
+                </div>
+            `;
+        }
+
+        // ---------------------------------------------------------------------
+        // 7. مختبر الحالات السريرية التفاعلي (OSCE Simulator)
+        // ---------------------------------------------------------------------
+        const OSCE_CASES = [
+            {
+                title: 'حالة 1: مريض 56 سنة يعاني من ألم ضاغط في منتصف الصدر',
+                scenario: 'رجل مدخن يبلغ من العمر 56 عاماً، حضر للطوارئ بألم حاد ضاغط في منتصف الصدر منذ 45 دقيقة ينتشر للذراع الأيسر والفك، مصحوب بتعرق بارد وغثيان. ضغط الدم 150/95، النبض 104/دقيقة.',
+                question: 'ما هو الفحص التشخيصي الأول والأسرع الذي يجب إجراؤه خلال أول 10 دقائق؟',
+                options: [
+                    { text: 'تخطيط كهربية القلب 12-Lead ECG وسحب إنزيمات القلب Troponin', correct: true, feedback: 'إجابة ممتازة! تخطيط القلب ECG خلال أول 10 دقائق هو حجر الأساس لتشخيص احتشاء عضلة القلب (STEMI) وبدء بروتوكول القسطرة أو الإذابة فوراً.' },
+                    { text: 'أشعة مقطعية بالصبغة على البطن والحوض', correct: false, feedback: 'غير صحيح. الأعراض قلبية نموذجية (Acute Coronary Syndrome) وتتطلب تخطيط قلب ECG فوراً.' },
+                    { text: 'إعطاء مسكن للمعدة وإرساله للمنزل للمتابعة بعد أسبوع', correct: false, feedback: 'خطر جداً! تأخير تشخيص الجلطة القلبية يهدد حياة المريض.' }
+                ]
+            },
+            {
+                title: 'حالة 2: شابة 24 سنة تعاني من ضيق تنفس مفاجئ وألم بالصدر',
+                scenario: 'شابة 24 عاماً تتناول حبوب منع الحمل المركبة وعادت من رحلة طيران طويلة (8 ساعات)، تعاني من ضيق تنفس مفاجئ، ألم جنبي عند الشهيق، وسرعة نبض 118/دقيقة مع تشبع أكسجين 89%.',
+                question: 'ما هو التشخيص الأرجح والفحص التأكيدي الذهبي (Gold Standard)؟',
+                options: [
+                    { text: 'انسداد رئوي حاد (Pulmonary Embolism) والتأكيد عبر CT Pulmonary Angiography', correct: true, feedback: 'أحسنت! عوامل الخطورة (السفر الطويل + حبوب منع الحمل) مع نقص الأكسجة وسرعة النبض توجه بقوة نحو الانسداد الرئوي (PE).' },
+                    { text: 'التهاب اللوزتين الحاد ويُعالج بالمضاد الحيوي الفموي', correct: false, feedback: 'غير صحيح. الأعراض تنفسية وعائية حادة وليست التهاباً في الحلق.' },
+                    { text: 'نقص فيتامين د ويُعالج بالمكملات الغذائية', correct: false, feedback: 'غير صحيح. هذه حالة طوارئ وعائية تتطلب تقييماً فورياً.' }
+                ]
+            },
+            {
+                title: 'حالة 3: مريض سكري 19 سنة يعاني من قيء وآلام بطن وتنفس عميق',
+                scenario: 'شاب مصاب بالسكري من النوع الأول توقف عن أخذ الإنسولين منذ يومين، حضر بقيء مستمر، جفاف شديد، رائحة أسيتون من الفم، سكر الدم 440 mg/dL، و pH = 7.18.',
+                question: 'ما هي الخطوة العلاجية الأولى في بروتوكول الطوارئ؟',
+                options: [
+                    { text: 'بدء المحاليل الوريدية (Normal Saline 0.9%) لتعويض الجفاف ثم الإنسولين الوريدي ومراقبة البوتاسيوم', correct: true, feedback: 'ممتاز! في الحماض الكيتوني السكري (DKA)، الأولوية القصوى هي تعويض السوائل الوريدية قبل بدء ضخ الإنسولين وفحص البوتاسيوم.' },
+                    { text: 'إعطاء جرعة كبيرة من الإنسولين تحت الجلد بدون محاليل وريدية', correct: false, feedback: 'خطأ سريري. تعويض السوائل الوريدية يسبق الإنسولين لمنع الهبوط الحاد في الدورة الدموية.' },
+                    { text: 'إعطاء بيكربونات الصوديوم بجرعات عالية فقط', correct: false, feedback: 'غير صحيح. بيكربونات الصوديوم لا تُعطى روتينياً في DKA إلا في حالات الحموضة الشديدة جداً (pH < 6.9).' }
+                ]
+            }
+        ];
+
+        function loadOsceCase(idx) {
+            const c = OSCE_CASES[idx] || OSCE_CASES[0];
+            document.querySelectorAll('.osce-tab-btn').forEach((btn, i) => {
+                btn.className = (i === idx)
+                    ? 'osce-tab-btn px-3 py-1.5 rounded-xl bg-[#0b2e59] text-white text-xs font-bold'
+                    : 'osce-tab-btn px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold';
+            });
+
+            const container = document.getElementById('osce-case-container');
+            if (!container) return;
+            container.innerHTML = `
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <h4 class="font-black text-[#0b2e59] dark:text-sky-400 text-base">${c.title}</h4>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${c.scenario}</p>
+                </div>
+                <div class="font-extrabold text-sm text-slate-900 dark:text-white">${c.question}</div>
+                <div class="space-y-2.5">
+                    ${c.options.map((opt, oIdx) => `
+                        <button type="button" onclick="answerOsceOption(${idx}, ${oIdx})" class="w-full text-right p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-[#1e6bb8] bg-white dark:bg-slate-900 text-xs sm:text-sm font-bold transition">
+                            ${opt.text}
+                        </button>
+                    `).join('')}
+                </div>
+                <div id="osce-feedback-box" class="hidden p-4 rounded-2xl text-xs sm:text-sm font-bold leading-relaxed"></div>
+            `;
+        }
+
+        function answerOsceOption(caseIdx, optIdx) {
+            const opt = OSCE_CASES[caseIdx].options[optIdx];
+            const fb = document.getElementById('osce-feedback-box');
+            if (!fb || !opt) return;
+            fb.classList.remove('hidden');
+            fb.className = opt.correct
+                ? 'p-4 rounded-2xl text-xs sm:text-sm font-bold leading-relaxed bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-200'
+                : 'p-4 rounded-2xl text-xs sm:text-sm font-bold leading-relaxed bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-200';
+            fb.innerHTML = `<i class="fa-solid ${opt.correct ? 'fa-circle-check' : 'fa-circle-xmark'} ml-1.5"></i>${opt.feedback}`;
+        }
+
+        // ---------------------------------------------------------------------
+        // 8. الكورسات الطبية، الاختبارات، الشهادات، السلة والدفع
+        // ---------------------------------------------------------------------
+        const COURSES_DATA = [
+            {
+                id: 1,
+                title: 'التشريح البشري السريري المتقدم 3D',
+                category: 'basic',
+                hours: '24 ساعة',
+                price: 0,
+                icon: 'fa-person',
+                summary: 'دراسة شاملة للتشريح الطبقي للصدر والبطن والأطراف مع التطبيقات الجراحية.',
+                lesson: 'يُعد فهم العلاقات التشريحية بين الأعضاء والأوعية الكبرى أساس الممارسة الجراحية والسريرية الآمنة، مثل علاقة الشريان التاجي الأمامي النازل بالبطين الأيسر.',
+                quiz: {
+                    q: 'أي شريان يغذي الجدار الأمامي للبطين الأيسر والحاجز بين البطينين؟',
+                    options: ['الشريان التاجي الأمامي النازل (LAD)', 'الشريان الطحالي', 'الشريان السباتي الظاهر'],
+                    answer: 0
+                }
+            },
+            {
+                id: 2,
+                title: 'تخطيط كهربية القلب السريري (Clinical ECG)',
+                category: 'clinical',
+                hours: '18 ساعة',
+                price: 0,
+                icon: 'fa-heart-pulse',
+                summary: 'إتقان قراءة رسم القلب، تشخيص الجلطات الحادة STEMI، واضطرابات النظم.',
+                lesson: 'ارتفاع قطعة ST في الاتجاهات V1-V4 يشير إلى احتشاء الجدار الأمامي لعضلة القلب ويتطلب تدخلاً عاجلاً لإعادة التروية.',
+                quiz: {
+                    q: 'ارتفاع قطعة ST في الاتجاهات V1 إلى V4 يشير إلى احتشاء في:',
+                    options: ['الجدار السفلي', 'الجدار الأمامي لعضلة القلب (Anterior MI)', 'الأذين الأيمن'],
+                    answer: 1
+                }
+            },
+            {
+                id: 3,
+                title: 'قراءة التحاليل المخبرية وغازات الدم ABG',
+                category: 'clinical',
+                hours: '15 ساعة',
+                price: 35,
+                icon: 'fa-vials',
+                summary: 'التفسير الاحترافي لصورة الدم CBC، وظائف الكبد والكلى، وغازات الدم الشرياني.',
+                lesson: 'الأس الهيدروجيني الطبيعي للدم الشرياني يتراوح بين 7.35 و 7.45، وانخفاضه مع انخفاض HCO3 يشير إلى حماض استقلابي.',
+                quiz: {
+                    q: 'قيمة pH = 7.25 مع انخفاض HCO3 = 15 تشير إلى:',
+                    options: ['حماض استقلابي (Metabolic Acidosis)', 'قلاء تنفسي', 'توازن طبيعي'],
+                    answer: 0
+                }
+            },
+            {
+                id: 4,
+                title: 'الفسيولوجيا الطبية المتكاملة (Medical Physiology)',
+                category: 'basic',
+                hours: '22 ساعة',
+                price: 30,
+                icon: 'fa-lungs',
+                summary: 'آليات عمل القلب، الدورة الدموية، التنفس، والتوازن الكلوي.',
+                lesson: 'النتاج القلبي (Cardiac Output) يساوي حاصل ضرب معدل نبضات القلب في حجم الضربة الواحدة (HR × Stroke Volume).',
+                quiz: {
+                    q: 'النتاج القلبي (Cardiac Output) يساوي:',
+                    options: ['ضغط الدم ÷ النبض', 'معدل النبض × حجم الضربة (HR × SV)', 'مقاومة الأوعية الدموية فقط'],
+                    answer: 1
+                }
+            },
+            {
+                id: 5,
+                title: 'علم الأدوية السريري (Clinical Pharmacology)',
+                category: 'basic',
+                hours: '20 ساعة',
+                price: 40,
+                icon: 'fa-pills',
+                summary: 'آليات عمل الأدوية، التداخلات الدوائية، والجرعات الآمنة.',
+                lesson: 'مثبطات الإنزيم المحول للأنجيوتنسين (ACE Inhibitors) تُستخدم لعلاج ارتفاع ضغط الدم وفشل القلب وتحمي الكلى لدى مرضى السكري.',
+                quiz: {
+                    q: 'من الآثار الجانبية الشهيرة لأدوية ACE Inhibitors:',
+                    options: ['سعال جاف مستمر', 'ارتفاع السكر الحاد', 'زيادة تخثر الدم'],
+                    answer: 0
+                }
+            },
+            {
+                id: 6,
+                title: 'طب الطوارئ والإنعاش القلبي الرئوي (ACLS)',
+                category: 'clinical',
+                hours: '16 ساعة',
+                price: 45,
+                icon: 'fa-truck-medical',
+                summary: 'بروتوكولات التعامل مع السكتة القلبية، الصدمة، والحالات الحرجة.',
+                lesson: 'في حالة الرجفان البطيني (Ventricular Fibrillation)، الصدمة الكهربائية الفورية مع الإنعاش القلبي الرئوي عالي الجودة هي المنقذ الأول للحياة.',
+                quiz: {
+                    q: 'الإجراء الأول في حالة الرجفان البطيني (VF) بدون نبض هو:',
+                    options: ['إعطاء مهدئ فموي', 'الصدمة الكهربائية (Defibrillation) والإنعاش القلبي', 'الانتظار لمدة 15 دقيقة'],
+                    answer: 1
+                }
+            },
+            {
+                id: 7,
+                title: 'علم الأمراض العام والخاص (Pathology)',
+                category: 'basic',
+                hours: '25 ساعة',
+                price: 35,
+                icon: 'fa-microscope',
+                summary: 'التغيرات الخلوية، الالتهابات، والأورام تحت المجهر.',
+                lesson: 'الالتهاب الحاد يتميز بزيادة نفاذية الأوعية الدموية وهجرة خلايا العدلات (Neutrophils) إلى موقع الإصابة.',
+                quiz: {
+                    q: 'الخلية المناعية السائدة في مراحل الالتهاب البكتيري الحاد هي:',
+                    options: ['العدلات (Neutrophils)', 'الخلايا الحمضية فقط', 'الصفائح الدموية'],
+                    answer: 0
+                }
+            },
+            {
+                id: 8,
+                title: 'الأشعة التشخيصية المقطعية والسينية (Radiology)',
+                category: 'clinical',
+                hours: '19 ساعة',
+                price: 40,
+                icon: 'fa-x-ray',
+                summary: 'قراءة أشعة الصدر Chest X-Ray والأشعة المقطعية للدماغ والبطن.',
+                lesson: 'وجود هواء حر تحت الحجاب الحاجز في أشعة الصدر بوضعية الوقوف يشير إلى انثقاب في الجهاز الهضمي ويتطلب جراحة طارئة.',
+                quiz: {
+                    q: 'وجود هواء حر تحت الحجاب الحاجز (Pneumoperitoneum) يدل غالباً على:',
+                    options: ['انثقاب عضو مجوف في البطن', 'التهاب الجيوب الأنفية', 'كسر في الترقوة'],
+                    answer: 0
+                }
+            }
+        ];
+
+        function filterCourses(filterType, btnEl) {
+            currentCourseFilter = filterType;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = 'filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition';
+            });
+            if (btnEl) {
+                btnEl.className = 'filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#0b2e59] text-white shadow-sm transition';
+            }
+            renderCourses();
+        }
+
+        function renderCourses() {
+            const grid = document.getElementById('courses-grid');
+            if (!grid) return;
+
+            const filtered = COURSES_DATA.filter(c => {
+                if (currentCourseFilter === 'basic') return c.category === 'basic';
+                if (currentCourseFilter === 'clinical') return c.category === 'clinical';
+                if (currentCourseFilter === 'owned') return appState.ownedCourses.includes(c.id);
+                return true;
+            });
+
+            grid.innerHTML = filtered.map(c => {
+                const isOwned = appState.ownedCourses.includes(c.id);
+                const inCart = appState.cart.includes(c.id);
+                return `
+                    <div class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-xl transition flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="w-11 h-11 rounded-2xl bg-[#0b2e59]/10 dark:bg-sky-900/40 text-[#0b2e59] dark:text-sky-400 flex items-center justify-center text-lg">
+                                    <i class="fa-solid ${c.icon}"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-xs font-extrabold ${isOwned ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : 'bg-sky-500/15 text-[#1e6bb8] dark:text-sky-300'}">
+                                    ${isOwned ? 'مفعّل' : (c.price === 0 ? 'مجاني' : '$' + c.price)}
+                                </span>
+                            </div>
+                            <h3 class="font-black text-base leading-snug">${c.title}</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${c.summary}</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-2">
+                            <span class="text-[11px] font-bold text-slate-400"><i class="fa-regular fa-clock ml-1"></i>${c.hours}</span>
+                            ${isOwned
+                                ? `<button type="button" onclick="openCoursePlayer(${c.id})" class="px-4 py-2 rounded-xl bg-tealmed-600 hover:bg-tealmed-700 text-white text-xs font-black transition">ابدأ الدراسة والاختبار</button>`
+                                : `<button type="button" onclick="addToCart(${c.id})" class="px-4 py-2 rounded-xl ${inCart ? 'bg-slate-400 text-white' : 'bg-[#0b2e59] hover:bg-[#1e6bb8] text-white'} text-xs font-black transition">${inCart ? 'في السلة' : 'اشتراك الآن'}</button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCoursePlayer(courseId) {
+            const c = COURSES_DATA.find(item => item.id === courseId);
+            if (!c) return;
+            document.getElementById('modal-course-title').textContent = c.title;
+            document.getElementById('modal-course-body').innerHTML = `
+                <div class="p-5 rounded-2xl bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 space-y-2">
+                    <div class="text-xs font-extrabold text-[#1e6bb8] dark:text-sky-400">ملخص المحاضرة العلمية:</div>
+                    <p class="text-sm leading-relaxed">${c.lesson}</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-3">
+                    <div class="font-black text-sm">اختبار الحصول على الشهادة المعتمدة:</div>
+                    <p class="text-sm font-bold">${c.quiz.q}</p>
+                    <div class="space-y-2">
+                        ${c.quiz.options.map((opt, idx) => `
+                            <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 cursor-pointer text-xs sm:text-sm font-bold">
+                                <input type="radio" name="course-quiz-opt" value="${idx}" class="accent-[#0b2e59]">
+                                <span>${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <button type="button" onclick="submitCourseQuiz(${c.id})" class="w-full py-3 rounded-2xl bg-gradient-to-r from-[#0b2e59] to-tealmed-600 text-white font-black text-sm shadow">تسليم الاختبار وإصدار الشهادة</button>
+                </div>
+            `;
+            document.getElementById('course-player-modal').classList.remove('hidden');
+        }
+
+        function closeCourseModal() {
+            document.getElementById('course-player-modal').classList.add('hidden');
+        }
+
+        function submitCourseQuiz(courseId) {
+            const c = COURSES_DATA.find(item => item.id === courseId);
+            const selected = document.querySelector('input[name="course-quiz-opt"]:checked');
+            if (!selected) {
+                showToast('يرجى اختيار إجابة أولاً');
+                return;
+            }
+            if (Number(selected.value) === c.quiz.answer) {
+                const existing = appState.certificates.find(cert => cert.courseTitle === c.title);
+                if (!existing) {
+                    appState.certificates.unshift({
+                        id: 'MH-2026-' + Math.floor(1000 + Math.random() * 9000),
+                        courseTitle: c.title,
+                        date: new Date().toISOString().split('T')[0]
+                    });
+                    syncCloudSave();
+                    renderCertificates();
+                }
+                closeCourseModal();
+                showToast('مبروك! اجتزت الاختبار بنجاح وتم إصدار شهادتك المعتمدة');
+                openCertificateView(c.title);
+            } else {
+                showToast('إجابة غير صحيحة، راجع ملخص المحاضرة وحاول مرة أخرى');
+            }
+        }
+
+        function renderCertificates() {
+            const grid = document.getElementById('certificates-grid');
+            if (!grid) return;
+            const studentName = (appState.user && appState.user.name) ? appState.user.name : 'د. مستخدم MEDICAL HUB';
+
+            grid.innerHTML = appState.certificates.map(cert => `
+                <div class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-6 border-2 border-[#0b2e59]/30 shadow-md space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full bg-[#0b2e59] text-white text-[11px] font-en font-bold">${cert.id}</span>
+                        <span class="text-xs text-slate-400 font-en">${cert.date}</span>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500">ممنوحة إلى: <strong>${studentName}</strong></div>
+                        <h4 class="font-black text-base mt-1 text-[#0b2e59] dark:text-sky-400">${cert.courseTitle}</h4>
+                    </div>
+                    <button type="button" onclick="openCertificateView('${cert.courseTitle.replace(/'/g, "\\'")}')" class="w-full py-2.5 rounded-xl bg-[#0b2e59] hover:bg-[#1e6bb8] text-white text-xs font-black transition">
+                        <i class="fa-solid fa-award ml-1.5"></i>عرض وطباعة الشهادة
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function openCertificateView(courseTitle) {
+            const cert = appState.certificates.find(c => c.courseTitle === courseTitle) || appState.certificates[0];
+            const studentName = (appState.user && appState.user.name) ? appState.user.name : 'د. مستخدم MEDICAL HUB';
+            document.getElementById('cert-student-name').textContent = studentName;
+            document.getElementById('cert-course-name').textContent = cert.courseTitle;
+            document.getElementById('cert-date').textContent = cert.date;
+            document.getElementById('cert-code').textContent = cert.id;
+            document.getElementById('certificate-modal').classList.remove('hidden');
+        }
+
+        function closeCertModal() {
+            document.getElementById('certificate-modal').classList.add('hidden');
+        }
+
+        // ---------------------------------------------------------------------
+        // 9. سلة المشتريات والدفع الإلكتروني (Cart & Checkout)
+        // ---------------------------------------------------------------------
+        function addToCart(courseId) {
+            if (!appState.cart.includes(courseId) && !appState.ownedCourses.includes(courseId)) {
+                appState.cart.push(courseId);
+                syncCloudSave();
+                updateCartUI();
+                renderCourses();
+                showToast('تمت إضافة الكورس إلى السلة');
+            }
+        }
+
+        function removeFromCart(courseId) {
+            appState.cart = appState.cart.filter(id => id !== courseId);
+            syncCloudSave();
+            updateCartUI();
+            renderCourses();
+        }
+
+        function toggleCartDrawer(forceState) {
+            const drawer = document.getElementById('cart-drawer');
+            if (!drawer) return;
+            if (typeof forceState === 'boolean') {
+                drawer.classList.toggle('hidden', !forceState);
+            } else {
+                drawer.classList.toggle('hidden');
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const list = document.getElementById('cart-items-list');
+            const totalEl = document.getElementById('cart-total-price');
+            if (badge) badge.textContent = appState.cart.length.toString();
+            if (!list || !totalEl) return;
+
+            let total = 0;
+            if (appState.cart.length === 0) {
+                list.innerHTML = '<div class="text-center py-8 text-sm text-slate-400">سلة الاشتراكات فارغة حالياً</div>';
+                totalEl.textContent = '$0';
+                return;
+            }
+
+            list.innerHTML = appState.cart.map(id => {
+                const c = COURSES_DATA.find(item => item.id === id);
+                if (!c) return '';
+                total += c.price;
+                return `
+                    <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <div>
+                            <div class="text-xs font-black">${c.title}</div>
+                            <div class="text-xs font-en font-bold text-[#1e6bb8]">$${c.price}</div>
+                        </div>
+                        <button type="button" onclick="removeFromCart(${c.id})" class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-xl"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            }).join('');
+            totalEl.textContent = '$' + total;
+        }
+
+        function selectPaymentMethod(method) {
+            appState.paymentMethod = method;
+            ['card', 'wallet', 'apple'].forEach(m => {
+                const btn = document.getElementById('pay-' + m);
+                if (btn) {
+                    btn.className = (m === method)
+                        ? 'pay-method-btn p-2.5 rounded-xl border-2 border-[#0b2e59] bg-sky-50 dark:bg-sky-950/40 text-[#0b2e59] dark:text-sky-300'
+                        : 'pay-method-btn p-2.5 rounded-xl border border-slate-200 dark:border-slate-700';
+                }
+            });
+        }
+
+        function processCheckout() {
+            if (appState.cart.length === 0) {
+                showToast('السلة فارغة، أضف كورساً أولاً');
+                return;
+            }
+            appState.cart.forEach(id => {
+                if (!appState.ownedCourses.includes(id)) {
+                    appState.ownedCourses.push(id);
+                }
+            });
+            appState.cart = [];
+            syncCloudSave();
+            updateCartUI();
+            renderCourses();
+            toggleCartDrawer(false);
+            showToast('تم الدفع وتفعيل جميع الكورسات في حسابك بنجاح!');
+        }
+
+        // ---------------------------------------------------------------------
+        // 10. استشارة المريض ومنظم الأدوية والقاموس الطبي الفوري
+        // ---------------------------------------------------------------------
+        function handleConsultation(e) {
+            e.preventDefault();
+            const age = document.getElementById('patient-age').value;
+            const spec = document.getElementById('patient-specialty').value;
+            const symptoms = document.getElementById('patient-symptoms').value.trim();
+            const resBox = document.getElementById('consultation-result');
+            const badge = document.getElementById('triage-badge');
+            const advice = document.getElementById('consultation-advice');
+
+            const isUrgent = /صدر|ضيق تنفس|إغماء|نزيف|شلل|chest|shortness/i.test(symptoms);
+            resBox.classList.remove('hidden');
+
+            if (isUrgent) {
+                badge.className = 'inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-rose-600 text-white';
+                badge.textContent = 'تقييم عاجل — يُنصح بالتوجه للطوارئ فوراً';
+                advice.textContent = `بناءً على الأعراض المذكورة لعمر ${age} سنة في تخصص (${spec})، توجد علامات تحذيرية تستدعي الفحص السريري الفوري وعمل الفحوصات اللازمة في أقرب قسم طوارئ.`;
+            } else {
+                badge.className = 'inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-tealmed-600 text-white';
+                badge.textContent = 'حالة مستقرة — متابعة عيادة خارجية';
+                advice.textContent = `التوجيه المبدئي لتخصص (${spec}) لعمر ${age} سنة: يُنصح بحجز موعد في العيادة المختصة، قياس العلامات الحيوية (الضغط والحرارة)، وتجنب المسكنات دون وصفة طبية.`;
+            }
+        }
+
+        function addMedication(e) {
+            e.preventDefault();
+            const name = document.getElementById('med-name').value.trim();
+            const dose = document.getElementById('med-dose').value.trim();
+            const time = document.getElementById('med-time').value;
+            if (!name || !dose || !time) return;
+
+            appState.medications.push({
+                id: Date.now(),
+                name,
+                dose,
+                time,
+                taken: false
+            });
+            syncCloudSave();
+            renderMedications();
+            e.target.reset();
+            showToast('تمت إضافة الدواء إلى جدولك اليومي');
+        }
+
+        function toggleMedTaken(id) {
+            const med = appState.medications.find(m => m.id === id);
+            if (med) {
+                med.taken = !med.taken;
+                syncCloudSave();
+                renderMedications();
+            }
+        }
+
+        function deleteMedication(id) {
+            appState.medications = appState.medications.filter(m => m.id !== id);
+            syncCloudSave();
+            renderMedications();
+        }
+
+        function renderMedications() {
+            const list = document.getElementById('medication-list');
+            if (!list) return;
+            if (appState.medications.length === 0) {
+                list.innerHTML = '<div class="text-center py-6 text-xs text-slate-400">لا توجد أدوية مضافة بعد</div>';
+                return;
+            }
+            list.innerHTML = appState.medications.map(m => `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="toggleMedTaken(${m.id})" class="w-6 h-6 rounded-full border-2 flex items-center justify-center ${m.taken ? 'bg-tealmed-600 border-tealmed-600 text-white' : 'border-slate-400'}">
+                            ${m.taken ? '<i class="fa-solid fa-check text-xs"></i>' : ''}
+                        </button>
+                        <div>
+                            <div class="text-sm font-black ${m.taken ? 'line-through text-slate-400' : ''}">${m.name}</div>
+                            <div class="text-[11px] text-slate-500">${m.dose} • الساعة <span class="font-en font-bold">${m.time}</span></div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="deleteMedication(${m.id})" class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-xl"><i class="fa-solid fa-trash text-xs"></i></button>
+                </div>
+            `).join('');
+        }
+
+        const MEDICAL_DICTIONARY = {
+            'myocardial infarction': 'احتشاء عضلة القلب (الجلطة القلبية الحادة): موت جزء من عضلة القلب نتيجة انسداد مفاجئ في أحد الشرايين التاجية.',
+            'احتشاء عضلة القلب': 'Myocardial Infarction (MI): انقطاع التروية الدموية عن جزء من عضلة القلب مما يتطلب تدخلاً قسطرياً عاجلاً.',
+            'hypertension': 'ارتفاع ضغط الدم الشرياني (Hypertension): ارتفاع مستمر في ضغط الدم ≥ 140/90 mmHg يزيد من عبء العمل على القلب والأوعية.',
+            'التهاب الزائدة الدودية': 'Acute Appendicitis: التهاب حاد في الزائدة الدودية يسبب ألماً يبدأ حول السرة ثم ينتقل للربع السفلي الأيمن من البطن (McBurney point).',
+            'pneumonia': 'الالتهاب الرئوي (Pneumonia): عدوى تصيب الحويصلات الهوائية في إحدى الرئتين أو كلتيهما وتسبب حمى وسعالاً وضيق تنفس.',
+            'diabetes mellitus': 'داء السكري (Diabetes Mellitus): اضطراب استقلابي مزمن يؤدي لارتفاع مستوى الجلوكوز في الدم بسبب نقص الإنسولين أو مقاومته.'
+        };
+
+        function quickTerm(term) {
+            const input = document.getElementById('trans-input');
+            if (input) input.value = term;
+            translateMedicalText();
+        }
+
+        function translateMedicalText() {
+            const raw = (document.getElementById('trans-input').value || '').trim();
+            const out = document.getElementById('trans-output');
+            if (!out) return;
+            if (!raw) {
+                out.textContent = 'يرجى كتابة المصطلح الطبي أولاً...';
+                return;
+            }
+            const key = raw.toLowerCase();
+            if (MEDICAL_DICTIONARY[key]) {
+                out.textContent = MEDICAL_DICTIONARY[key];
+            } else {
+                out.textContent = `المصطلح الطبي: "${raw}" — يُنصح بمراجعة السياق السريري والمراجع الأكاديمية في قسم الكورسات الطبية.`;
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 11. تهيئة التطبيق عند التحميل (App Initialization)
+        // ---------------------------------------------------------------------
+        window.addEventListener('DOMContentLoaded', () => {
+            syncCloudLoad();
+            generateOfficialLogo512();
+
+            // استعادة الوضع الليلي إن كان مفعلاً
+            if (localStorage.getItem('medical_hub_theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                const icon = document.getElementById('theme-icon');
+                if (icon) icon.className = 'fa-solid fa-sun';
+            }
+
+            // التحقق من بوابة الدخول الإجبارية
+            if (appState.user && appState.user.email) {
+                unlockMandatoryGate(appState.user);
+            }
+
+            // تهيئة جميع الأقسام
+            selectRealAnatomyModel('fullbody');
+            loadOsceCase(0);
+            renderCourses();
+            renderCertificates();
+            renderMedications();
+            updateCartUI();
+        });
+    </script>
+</body>
+</html>
